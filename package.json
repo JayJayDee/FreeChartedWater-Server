@@ -1,0 +1,28 @@
+{
+  "name": "node-freechartedwater",
+  "version": "1.0.0",
+  "description": "FreeChartedWater API Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JayJayDee/Node-FreeChartedWater.git"
+  },
+  "author": "JayJayDee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JayJayDee/Node-FreeChartedWater/issues"
+  },
+  "homepage": "https://github.com/JayJayDee/Node-FreeChartedWater#readme",
+  "devDependencies": {
+    "@types/node": "^12.12.14",
+    "nodemon": "^2.0.1",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "typeorm": "^0.2.20"
+  }
+}
