@@ -4,6 +4,7 @@
   "description": "FreeChartedWater API Server",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon --watch ./src -e ts --exec \"ts-node --project ./tsconfig.json ./src/app\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,9 +21,11 @@
     "@types/node": "^12.12.14",
     "nodemon": "^2.0.1",
     "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
     "typescript": "^3.7.2"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "typeorm": "^0.2.20"
   }
 }
