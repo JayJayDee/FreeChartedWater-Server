@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne } from 'typeorm';
-import { User } from '..';
+import { User } from '../user';
 import { BaseChampion } from './base-champion';
 import { City } from '../city';
 
