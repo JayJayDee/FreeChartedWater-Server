@@ -9,14 +9,27 @@ so, I decided to make my own Uncharted Water game, so this is the reason why the
 - MariaDB or MySQL
 - Redis (Optional, but recommended, for scaling out the websocket)
 
-## How to run (for development)
+## Applications
+each applications in this repository can be run like followings: 
 ```bash
-$ npm install
-$ npm run dev
+npm run util:pourer # initial data pourer util
+npm run webserver # http API server
 ```
+you can run each application with a development mode.
+```bash
+npm run dev:util:pourer 
+npm run dev:webserver
+```
+applications are same as followings:
+- util:pourer
+- webserver
+- worker
 
-## How to run (with docker-compose)
+## How to configure application
 TBD
 
-## How to configure
+## How to test
+TBD
+
+## run with docker-compose
 TBD
