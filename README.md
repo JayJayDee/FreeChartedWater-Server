@@ -7,6 +7,7 @@ so, I decided to make my own Uncharted Water game, so this is the reason why the
 ## Environments
 - node.js 10.x
 - MariaDB or MySQL
+- Redis (Optional, but recommended, for scaling out the websocket)
 
 ## How to run (for development)
 ```bash

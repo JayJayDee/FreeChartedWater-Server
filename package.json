@@ -4,7 +4,8 @@
   "description": "FreeChartedWater API Server",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch ./src -e ts --exec \"ts-node --project ./tsconfig.json ./src/app\"",
+    "dev:util:pour": "nodemon --watch ./src -e ts --exec \"ts-node -T --project ./tsconfig.json ./src/utils/pour-base-data\"",
+    "util:pour": "ts-node -T --project ./tsconfig.json ./src/utils/pour-base-data",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
