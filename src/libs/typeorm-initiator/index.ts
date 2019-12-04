@@ -19,7 +19,7 @@ const loadMysqlConfig = () => ({
 interface TypeOrmOptions {
   logging?: boolean;
   synchronize?: boolean;
-  entities: EntitySchema[];
+  entities: any[];
 }
 
 const defaultTypeOrmOption = () => ({
