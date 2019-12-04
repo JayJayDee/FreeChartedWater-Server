@@ -4,7 +4,9 @@
   "description": "FreeChartedWater API Server",
   "main": "index.js",
   "scripts": {
+    "dev:util:sync": "nodemon --watch ./src -e ts --exec \"ts-node -T --project ./tsconfig.json ./src/utils/synchronizer\"",
     "dev:util:pourer": "nodemon --watch ./src -e ts --exec \"ts-node -T --project ./tsconfig.json ./src/utils/pourer\"",
+    "util:sync": "ts-node -T --project ./tsconfig.json ./src/utils/synchronizer",
     "util:pourer": "ts-node -T --project ./tsconfig.json ./src/utils/pourer",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

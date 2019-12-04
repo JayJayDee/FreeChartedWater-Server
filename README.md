@@ -22,8 +22,27 @@ npm run dev:webserver
 ```
 applications are same as followings:
 - util:pourer
+- util:sync
 - webserver
 - worker
+
+### webserver
+starts a GraphQL server.
+```bash
+npm run webserver
+```
+
+### worker
+starts a Worker.
+```bash
+npm run worker
+```
+
+### util:sync
+synchronizes schemas with given database configuration. it is useful when setting up a new database server.
+```bash
+npm run util:sync
+```
 
 ## How to configure application
 TBD
