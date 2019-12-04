@@ -24,12 +24,19 @@ applications are same as followings:
 - util:pourer
 - util:sync
 - webserver
+- websocket
 - worker
 
 ### webserver
 starts a GraphQL server.
 ```bash
 npm run webserver
+```
+
+### websocket
+starts a Websocket(socket.io) server.
+```bash
+npm run websocket
 ```
 
 ### worker
