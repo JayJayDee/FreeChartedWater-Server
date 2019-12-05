@@ -31,6 +31,7 @@ export class User {
   @Column({
     length: 80,
   })
+  @Field()
   public password: string;
 
   @Column()
@@ -38,14 +39,11 @@ export class User {
   public gold: number;
 
   @OneToMany((type) => Champion, (champion) => champion.owner)
-  @Field((type) => [ Champion ])
   public champions: Champion[];
 
   @OneToMany((type) => Fleet, (fleet) => fleet.owner)
-  @Field((type) => [ Fleet ])
   public fleets: Fleet[];
 
   @OneToMany((type) => Ship, (ship) => ship.owner)
-  @Field((type) => [ Ship ])
   public ships: Ship[];
 }
