@@ -25,5 +25,6 @@ export class City {
   public champions: Champion[];
 
   @OneToMany((type) => Product, (product) => product.producedBy)
+  @Field((type) => [ Product ])
   public products: Product[];
 }

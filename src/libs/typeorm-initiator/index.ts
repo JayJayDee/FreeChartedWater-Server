@@ -1,5 +1,8 @@
 import { createConnection, EntitySchema } from 'typeorm';
 import { loadConfig } from '../configs';
+import { log } from '../logger';
+
+const tag = '[typeorm-initiator]';
 
 const loadMysqlConfig = () => ({
   host: loadConfig('MYSQL_HOST'),
@@ -30,6 +33,7 @@ const defaultTypeOrmOption = () => ({
 
 export const initTypeORM =
   async (opts?: TypeOrmOptions) => {
+    log.info(`${tag} initializing TypeORM...`);
     const cfg = loadMysqlConfig();
 
     const mergedOptions = {
@@ -44,4 +48,6 @@ export const initTypeORM =
       ...mergedOptions,
       ...cfg,
     });
+
+    log.info(`${tag} TypeORM initialized.`);
   };
