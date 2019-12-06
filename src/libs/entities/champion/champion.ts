@@ -3,6 +3,7 @@ import { ObjectType, Field, ID } from 'type-graphql';
 import { User } from '../user';
 import { BaseChampion } from './base-champion';
 import { City } from '../city';
+import { Fleet } from '..';
 
 @Entity()
 @ObjectType()
