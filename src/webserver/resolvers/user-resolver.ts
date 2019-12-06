@@ -13,9 +13,11 @@ export class UserResolver {
 
   @FieldResolver()
   public async fleets(@Root() user: User): Promise<Fleet[]> {
-    if (user.fleets) return user.fleets;
+    if (user.fleets) {
+      return user.fleets;
+    }
     return await getRepository(Fleet).find({
-      owner: user
+      owner: user,
     });
   }
 }

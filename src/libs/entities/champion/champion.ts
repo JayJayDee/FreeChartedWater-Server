@@ -1,9 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne } from 'typeorm';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne, AfterLoad } from 'typeorm';
+import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
 import { User } from '../user';
 import { BaseChampion } from './base-champion';
 import { City } from '../city';
-import { Fleet } from '..';
+
+enum ChampionStatusEnum {
+  SPAWNED = 'SPAWNED',
+  OWNED = 'OWNED',
+}
+
+type ChampionStatus = 'SPAWNED' | 'OWNED';
+
+registerEnumType(ChampionStatusEnum, {
+  name: 'ChampionStatus',
+  description: 'SPAWNED | OWNED',
+});
 
 @Entity()
 @ObjectType()
@@ -23,5 +34,16 @@ export class Champion {
 
   @OneToOne((type) => City, { nullable: true })
   @Field((type) => City, { nullable: true })
-  public bornIn: City | null;
+  public spawn: City | null;
+
+  @Field((type) => ChampionStatusEnum)
+  public status: ChampionStatus;
+
+  @AfterLoad()
+  private afterLoad() {
+    if (this.spawn !== null) {
+      this.status = 'SPAWNED';
+    }
+    return 'OWNED';
+  }
 }
