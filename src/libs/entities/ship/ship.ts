@@ -22,7 +22,7 @@ export class Ship {
   public owner: User;
 
   @ManyToOne((type) => Fleet)
-  // TODO: graphQL Field to be connected
+  @Field((type) => Fleet)
   public fleet: Fleet;
 
   @OneToMany((type) => Product, (product) => product.loadedBy)
