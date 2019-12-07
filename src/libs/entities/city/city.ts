@@ -14,13 +14,13 @@ export class City {
 
   @Column()
   @Field()
-  public name: string;
+  public nameCode: string;
 
   @ManyToOne((type) => Country)
   @Field((type) => Country)
   public country: Country;
 
-  @OneToMany((type) => Champion, (champion) => champion.bornIn)
+  @OneToMany((type) => Champion, (champion) => champion.spawn)
   @Field((type) => [ Champion ])
   public champions: Champion[];
 

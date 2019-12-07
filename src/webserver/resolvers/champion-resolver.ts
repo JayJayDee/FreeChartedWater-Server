@@ -1,13 +1,16 @@
-import { Resolver, Arg, Query, FieldResolver, Root } from 'type-graphql';
-import { User, Fleet, Champion } from '../../libs/entities';
+import { Resolver, Arg, Query } from 'type-graphql';
+import { Champion } from '../../libs/entities';
 import { getRepository } from 'typeorm';
 
 @Resolver(Champion)
 export class ChampionResolver {
 
-  @Query((type) => [ Champion ])
+  @Query((type) => Champion)
   public async champion(@Arg('no') no: number) {
-    const champion = await getRepository(Champion).findOne(no);
+    const champion =
+      await getRepository(Champion).findOne(no, {
+        relations: [ 'spawn', 'owner', 'base' ],
+      });
     return champion;
   }
 }
