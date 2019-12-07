@@ -1,4 +1,4 @@
-import { Resolver, Arg, Query, Root, FieldResolver } from 'type-graphql';
+import { Resolver, Root, FieldResolver } from 'type-graphql';
 import { Champion, BaseChampion } from '../../libs/entities';
 import { getRepository } from 'typeorm';
 
