@@ -1,16 +1,20 @@
-import { Resolver, Arg, Query } from 'type-graphql';
-import { Champion } from '../../libs/entities';
+import { Resolver, Arg, Query, Root, FieldResolver } from 'type-graphql';
+import { Champion, BaseChampion } from '../../libs/entities';
 import { getRepository } from 'typeorm';
 
 @Resolver((of) => Champion)
 export class ChampionResolver {
 
-  @Query((type) => Champion)
-  public async champion(@Arg('no') no: number) {
-    const champion =
-      await getRepository(Champion).findOne(no, {
-        relations: [ 'spawn', 'owner', 'base' ],
+  @FieldResolver((type) => BaseChampion)
+  public async base(@Root() champion: Champion) {
+    const cham =
+      await getRepository(Champion).findOne({
+        where: { no: champion.no },
+        relations: [ 'base' ],
       });
-    return champion;
+    if (!cham) {
+      return null;
+    }
+    return cham.base;
   }
 }
