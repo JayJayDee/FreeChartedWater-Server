@@ -1,8 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column } from 'typeorm';
 import { User } from '../user';
 import { Ship } from '../ship';
 import { ObjectType, Field, ID } from 'type-graphql';
-import { Champion } from '..';
 
 @Entity()
 @ObjectType()

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne, AfterLoad } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, AfterLoad } from 'typeorm';
 import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
 import { User } from '../user';
 import { BaseChampion } from './base-champion';
