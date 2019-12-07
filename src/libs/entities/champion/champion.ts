@@ -24,7 +24,7 @@ export class Champion {
   @Field((type) => ID)
   public no: number;
 
-  @OneToOne((type) => BaseChampion)
+  @ManyToOne((type) => BaseChampion, (base) => base.champions)
   @Field((type) => BaseChampion)
   public base: BaseChampion;
 
@@ -32,7 +32,7 @@ export class Champion {
   @Field((type) => User, { nullable: true })
   public owner: User | null;
 
-  @OneToOne((type) => City, { nullable: true })
+  @ManyToOne((type) => City, (city) => city.champions, { nullable: true })
   @Field((type) => City, { nullable: true })
   public spawn: City | null;
 
@@ -41,9 +41,10 @@ export class Champion {
 
   @AfterLoad()
   private afterLoad() {
-    if (this.spawn !== null) {
+    if (this.spawn) {
       this.status = 'SPAWNED';
+    } else {
+      this.status = 'OWNED';
     }
-    return 'OWNED';
   }
 }

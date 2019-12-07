@@ -14,7 +14,7 @@ export class BaseItem {
     length: 40,
   })
   @Field()
-  public name: string;
+  public nameCode: string;
 
   @OneToMany((type) => Item, (item) => item.base)
   @Field((type) => [ Item ])

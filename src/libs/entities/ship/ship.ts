@@ -21,8 +21,8 @@ export class Ship {
   @Field((type) => User)
   public owner: User;
 
-  @ManyToOne((type) => Fleet)
-  @Field((type) => Fleet)
+  @ManyToOne((type) => Fleet, (fleet) => fleet.ships, { nullable: true })
+  @Field((type) => Fleet, { nullable: true })
   public fleet: Fleet;
 
   @OneToMany((type) => Product, (product) => product.loadedBy)
