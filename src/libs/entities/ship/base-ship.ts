@@ -14,6 +14,18 @@ export class BaseShip {
   @Field()
   public nameCode: string;
 
+  @Column()
+  @Field()
+  public maxCapacity: number;
+
+  @Column()
+  @Field()
+  public maxProduct: number;
+
+  @Column()
+  @Field()
+  public price: number;
+
   @OneToMany((type) => Ship, (ship) => ship.base)
   @Field((type) => [ Ship ])
   public ships: Ship[];

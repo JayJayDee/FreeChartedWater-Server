@@ -1,9 +1,12 @@
+import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server';
-import { graphQLSchema } from './graphql-schema';
-import { log } from '../libs/logger';
 import { GeneratingSchemaError } from 'type-graphql';
+
+import { log } from '../libs/logger';
 import { initTypeORM } from '../libs/typeorm-initiator';
 import { AllEntities as entities } from '../libs/entities';
+
+import { graphQLSchema } from './graphql-schema';
 
 const tag = '[graphql-webserver]';
 
@@ -21,6 +24,7 @@ const tag = '[graphql-webserver]';
 
     const { url } = await server.listen(3000);
     log.info(`${tag} GraphQL server started: ${url}`);
+
   } catch (err) {
     if (err instanceof GeneratingSchemaError) {
       log.error(err.details);

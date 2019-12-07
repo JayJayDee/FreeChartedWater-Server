@@ -2,7 +2,7 @@ import { Resolver, Arg, Query } from 'type-graphql';
 import { Champion } from '../../libs/entities';
 import { getRepository } from 'typeorm';
 
-@Resolver(Champion)
+@Resolver((of) => Champion)
 export class ChampionResolver {
 
   @Query((type) => Champion)
