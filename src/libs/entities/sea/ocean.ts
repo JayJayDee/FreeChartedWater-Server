@@ -1,15 +1,20 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Section } from './section';
+import { SeaSection } from './sea-section';
+import { ObjectType, Field, ID } from 'type-graphql';
 
 @Entity()
+@ObjectType()
 export class Ocean {
 
   @PrimaryGeneratedColumn()
+  @Field((type) => ID)
   public no: number;
 
   @Column()
+  @Field()
   public name: string;
 
-  @OneToMany((type) => Section, (section) => section.ocean)
-  public sections: Section[];
+  @OneToMany((type) => SeaSection, (section) => section.ocean)
+  @Field((type) => [ SeaSection ])
+  public sections: SeaSection[];
 }
