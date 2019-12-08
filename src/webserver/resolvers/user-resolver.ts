@@ -1,5 +1,5 @@
 import { Resolver, Arg, Query, FieldResolver, Root } from 'type-graphql';
-import { User, Fleet, Ship, Champion } from '../../libs/entities';
+import { User, Fleet, Ship, Champion, Item } from '../../libs/entities';
 import { getRepository } from 'typeorm';
 
 @Resolver((of) => User)
@@ -24,5 +24,10 @@ export class UserResolver {
   @FieldResolver()
   public async champions(@Root() user: User) {
     return await getRepository(Champion).find({ where: { owner: user }});
+  }
+
+  @FieldResolver()
+  public async items(@Root() user: User) {
+    return await getRepository(Item).find({ where: { owner: user }});
   }
 }
