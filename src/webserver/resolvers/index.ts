@@ -3,6 +3,7 @@ import { ChampionResolver } from './champion-resolver';
 import { BaseShipResolver, ShipResolver } from './ship-resolver';
 import { FleetResolver } from './fleet-resolver';
 import { BaseItemResolver, ItemResolver } from './item-resolver';
+import { BaseProductResolver, ProductResolver } from './product-resolver';
 
 export const graphQLResolvers =
   () => {
@@ -12,5 +13,6 @@ export const graphQLResolvers =
       ChampionResolver,
       FleetResolver,
       BaseShipResolver, ShipResolver,
+      BaseProductResolver, ProductResolver,
     ];
   };

@@ -1,6 +1,34 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { ObjectType, Field, ID } from 'type-graphql';
-import { Product } from '..';
+import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
+import { Product } from './product';
+
+enum ProductTypeEnum {
+  LUXURY = 'LUXURY',
+  CLOTH = 'CLOTH',
+  GROCERY = 'GROCERY',
+  LIQUOR = 'LIQUOR',
+  SPICE = 'SPICE',
+  MINERAL = 'MINERAL',
+  CROP = 'CROP',
+  FANCY_GOODS = 'FANCY_GOODS',
+  DYE = 'DYE',
+}
+
+registerEnumType(ProductTypeEnum, {
+  name: 'ProductType',
+  description: 'product type',
+});
+
+type ProductType =
+  'LUXURY' |
+  'CLOTH' |
+  'GROCERY' |
+  'LIQUOR' |
+  'SPICE' |
+  'MINERAL' |
+  'CROP' |
+  'FANCY_GOODS' |
+  'DYE';
 
 @Entity()
 @ObjectType()
@@ -12,7 +40,18 @@ export class BaseProduct {
 
   @Column()
   @Field()
-  public name: string;
+  public nameCode: string;
+
+  @Column({
+    type: 'enum',
+    enum: ProductTypeEnum,
+  })
+  @Field((type) => ProductTypeEnum)
+  public type: ProductType;
+
+  @Column()
+  @Field()
+  public price: number;
 
   @OneToMany((type) => Product, (product) => product.base)
   public products: Product[];

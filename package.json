@@ -11,7 +11,8 @@
     "util:pourer": "ts-node -T --project ./tsconfig.json ./src/utils/pourer",
     "webserver": "ts-node -T --project ./tsconfig.json ./src/webserver",
     "websocket": "ts-node -T --project ./tsconfig.json ./src/websocket",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --project ./tsconfig-for-build.json"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   "homepage": "https://github.com/JayJayDee/Node-FreeChartedWater#readme",
   "devDependencies": {
     "@types/node": "^12.12.14",
+    "@types/node-fetch": "^2.5.4",
     "jest": "^24.9.0",
     "nodemon": "^2.0.1",
     "ts-node": "^8.5.4",
