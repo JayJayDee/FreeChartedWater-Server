@@ -24,6 +24,14 @@ export class BaseShip {
 
   @Column()
   @Field()
+  public maxCrew: number;
+
+  @Column()
+  @Field()
+  public maxHealth: number;
+
+  @Column()
+  @Field()
   public price: number;
 
   @OneToMany((type) => Ship, (ship) => ship.base)

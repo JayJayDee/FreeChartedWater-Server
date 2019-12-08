@@ -1,12 +1,14 @@
+import { UserResolver } from './user-resolver';
+import { ChampionResolver } from './champion-resolver';
+import { BaseShipResolver, ShipResolver } from './ship-resolver';
+import { FleetResolver } from './fleet-resolver';
+
 export const graphQLResolvers =
   () => {
-    const { UserResolver } = require('./user-resolver');
-    const { ChampionResolver } = require('./champion-resolver');
-    const { BaseShipResolver, ShipResolver } = require('./ship-resolver');
-
     return [
       UserResolver,
       ChampionResolver,
+      FleetResolver,
       BaseShipResolver, ShipResolver,
     ];
   };

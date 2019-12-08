@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column } from 'typeorm';
 import { User } from '../user';
 import { Product } from '../product';
 import { Fleet } from '../fleet';
@@ -12,6 +12,30 @@ export class Ship {
   @PrimaryGeneratedColumn()
   @Field((type) => ID)
   public no: number;
+
+  @Column()
+  @Field()
+  public name: string;
+
+  @Column()
+  @Field()
+  public maxCapacity: number;
+
+  @Column()
+  @Field()
+  public maxProduct: number;
+
+  @Column()
+  @Field()
+  public maxCrew: number;
+
+  @Column()
+  @Field()
+  public maxHealth: number;
+
+  @Column()
+  @Field()
+  public currentHealth: number;
 
   @ManyToOne((type) => BaseShip)
   @Field((type) => BaseShip)
