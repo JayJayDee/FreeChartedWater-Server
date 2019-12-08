@@ -1,6 +1,28 @@
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
 import { Item } from './item';
+
+export enum ItemTypeEnum {
+  CONSUMERABLE = 'COMSUMERABLE',
+  EQUIPABLE = 'EQUIPABLE',
+}
+type ItemType = 'CONSUMERABLE' | 'EQUIPABLE';
+
+export enum ItemEffectTypeEnum {
+  CHAMPION = 'CHAMPION',
+  SHIP = 'SHIP',
+}
+type ItemEffectType = 'CHAMPION' | 'SHIP';
+
+// type-graphQL enum registration
+registerEnumType(ItemTypeEnum, {
+  name: 'ItemType',
+  description: 'item type, CONSUMERABLE | EQUIPABLE',
+});
+registerEnumType(ItemEffectTypeEnum, {
+  name: 'ItemEffectType',
+  description: 'item target, CHAMPION | SHIP',
+});
 
 @Entity()
 @ObjectType()
@@ -15,6 +37,24 @@ export class BaseItem {
   })
   @Field()
   public nameCode: string;
+
+  @Column({
+    type: 'enum',
+    enum: ItemTypeEnum,
+  })
+  @Field()
+  public type: ItemType;
+
+  @Column({
+    type: 'enum',
+    enum: ItemEffectTypeEnum,
+  })
+  @Field()
+  public effectType: ItemEffectType;
+
+  @Column()
+  @Field()
+  public effectPoint: number;
 
   @OneToMany((type) => Item, (item) => item.base)
   @Field((type) => [ Item ])

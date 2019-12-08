@@ -3,6 +3,7 @@ import { ObjectType, Field, ID } from 'type-graphql';
 import { Champion } from '../champion';
 import { Fleet } from '../fleet';
 import { Ship } from '../ship';
+import { Item } from '..';
 
 @Entity()
 @ObjectType()
@@ -49,4 +50,8 @@ export class User {
   @OneToMany((type) => Ship, (ship) => ship.owner)
   @Field((type) => [ Ship ])
   public ships: Ship[];
+
+  @OneToMany((type) => Item, (item) => item.owner)
+  @Field((type) => [ Item ])
+  public items: Item[];
 }

@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, AfterLoad } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, AfterLoad, OneToMany } from 'typeorm';
 import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
 import { User } from '../user';
 import { BaseChampion } from './base-champion';
 import { City } from '../city';
+import { Item } from '../item';
 
 enum ChampionStatusEnum {
   SPAWNED = 'SPAWNED',
@@ -35,6 +36,10 @@ export class Champion {
   @ManyToOne((type) => City, (city) => city.champions, { nullable: true })
   @Field((type) => City, { nullable: true })
   public spawn: City | null;
+
+  @OneToMany((type) => Item, (item) => item.ownedChampion)
+  @Field((type) => [ Item ])
+  public equippedItems: Item[];
 
   @Field((type) => ChampionStatusEnum)
   public status: ChampionStatus;
