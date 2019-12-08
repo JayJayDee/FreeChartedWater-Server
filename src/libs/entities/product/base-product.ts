@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { ObjectType, Field, ID } from 'type-graphql';
-import { Product } from '..';
+import { Product } from './product';
 
 @Entity()
 @ObjectType()
@@ -12,7 +12,11 @@ export class BaseProduct {
 
   @Column()
   @Field()
-  public name: string;
+  public nameCode: string;
+
+  @Column()
+  @Field()
+  public price: number;
 
   @OneToMany((type) => Product, (product) => product.base)
   public products: Product[];
