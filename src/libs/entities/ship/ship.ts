@@ -4,6 +4,7 @@ import { Product } from '../product';
 import { Fleet } from '../fleet';
 import { BaseShip } from './base-ship';
 import { ObjectType, Field, ID } from 'type-graphql';
+import { Item } from '../item';
 
 @Entity()
 @ObjectType()
@@ -52,4 +53,8 @@ export class Ship {
   @OneToMany((type) => Product, (product) => product.loadedBy)
   @Field((type) => [ Product ])
   public products: Product[];
+
+  @OneToMany((type) => Item, (item) => item.ownedShip)
+  @Field((type) => [ Item ])
+  public equippedItems: Item[];
 }

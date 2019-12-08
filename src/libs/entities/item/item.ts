@@ -3,6 +3,7 @@ import { BaseItem } from './base-item';
 import { User } from '../user';
 import { Champion } from '../champion';
 import { ObjectType, Field, ID } from 'type-graphql';
+import { Ship } from '../ship';
 
 @Entity()
 @ObjectType()
@@ -23,4 +24,8 @@ export class Item {
   @ManyToOne((type) => Champion, (champion) => champion.equippedItems, { nullable: true })
   @Field((type) => Champion, { nullable: true })
   public ownedChampion: Champion | null;
+
+  @ManyToOne((type) => Ship, (ship) => ship.equippedItems, { nullable: true })
+  @Field((type) => Ship, { nullable: true })
+  public ownedShip: Ship | null;
 }
