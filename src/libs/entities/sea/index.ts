@@ -1,2 +1,2 @@
 export { Ocean } from './ocean';
-export { Section } from './section';
+export { SeaSection } from './sea-section';

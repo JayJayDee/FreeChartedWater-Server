@@ -1,6 +1,6 @@
 import { User } from './user';
 import { Ship, BaseShip } from './ship';
-import { Section, Ocean } from './sea';
+import { SeaSection, Ocean } from './sea';
 import { Product, BaseProduct } from './product';
 import { Item, BaseItem } from './item';
 import { Fleet } from './fleet';
@@ -10,7 +10,7 @@ import { Champion, BaseChampion } from './champion';
 const AllEntities = [
   User,
   Ship, BaseShip,
-  Section, Ocean,
+  SeaSection, Ocean,
   Product, BaseProduct,
   Item, BaseItem,
   Fleet,
@@ -22,7 +22,7 @@ export {
   AllEntities,
   User,
   Ship, BaseShip,
-  Section, Ocean,
+  SeaSection, Ocean,
   Product, BaseProduct,
   Item, BaseItem,
   Fleet,
