@@ -1,5 +1,5 @@
 import { Resolver, FieldResolver, Root } from 'type-graphql';
-import { Ship, BaseShip } from '../../libs/entities';
+import { Ship, BaseShip, Fleet } from '../../libs/entities';
 import { getRepository } from 'typeorm';
 
 @Resolver((of) => BaseShip)
@@ -30,5 +30,17 @@ export class ShipResolver {
       return null;
     }
     return s.base;
+  }
+
+  @FieldResolver((type) => Fleet)
+  public async fleet(@Root() ship: Ship) {
+    const s = await getRepository(Ship).findOne({
+      where: { no: ship.no },
+      relations: [ 'fleet' ],
+    });
+    if (!s) {
+      return null;
+    }
+    return s.fleet;
   }
 }
