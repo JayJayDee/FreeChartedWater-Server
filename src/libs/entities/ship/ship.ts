@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column, AfterLoad } from 'typeorm';
 import { User } from '../user';
 import { Product } from '../product';
 import { Fleet } from '../fleet';
@@ -24,11 +24,19 @@ export class Ship {
 
   @Column()
   @Field()
+  public currentCapacity: number;
+
+  @Column()
+  @Field()
   public maxProduct: number;
 
   @Column()
   @Field()
   public maxCrew: number;
+
+  @Column()
+  @Field()
+  public currentCrew: number;
 
   @Column()
   @Field()
@@ -57,4 +65,43 @@ export class Ship {
   @OneToMany((type) => Item, (item) => item.ownedShip)
   @Field((type) => [ Item ])
   public equippedItems: Item[];
+
+  @Field((type) => Number, { nullable: true })
+  public cruisingSpeed: number | null;
+
+  @Field((type) => Number, { nullable: true })
+  public availableCruisingDay: number | null;
+
+  @AfterLoad()
+  private afterShipLoad() {
+    this.cruisingSpeed =
+      calculateCruisingSpeed({
+        currentCrew: this.currentCrew,
+        maxCrew: this.maxCrew,
+        currentCapacity: this.currentCapacity,
+        maxCapacity: this.maxCapacity,
+      });
+
+    this.availableCruisingDay =
+      calculateCruisingDay({
+        currentCrew: this.currentCrew,
+        currentCapacity: this.currentCapacity,
+      });
+  }
 }
+
+const calculateCruisingSpeed =
+  ({ currentCrew, maxCrew, currentCapacity, maxCapacity }: {
+    currentCrew: number, maxCrew: number, currentCapacity: number, maxCapacity: number,
+  }) => {
+    // TODO: calculate cruising speed.
+    return 0;
+  };
+
+const calculateCruisingDay =
+  ({ currentCrew, currentCapacity }: {
+    currentCrew: number, currentCapacity: number,
+  }) => {
+    // TODO: calculate available cruising day.
+    return 0;
+  };

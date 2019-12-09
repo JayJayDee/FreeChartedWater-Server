@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column, AfterLoad } from 'typeorm';
 import { User } from '../user';
 import { Ship } from '../ship';
 import { SeaSection } from '../sea';
@@ -29,4 +29,23 @@ export class Fleet {
   @OneToMany((type) => Ship, (ship) => ship.fleet)
   @Field((type) => [ Ship ])
   public ships: Ship[];
+
+  @Field((type) => Number, { nullable: true })
+  public cruisingSpeed: number | null;
+
+  @AfterLoad()
+  private afterFleetLoad() {
+    if (this.ships.length === 0) {
+      return;
+    }
+    this.cruisingSpeed = calculateAverageCruisingSpeed(this.ships);
+  }
 }
+
+const calculateAverageCruisingSpeed =
+  (ships: Ship[]) =>
+      ships.map((s) => s.cruisingSpeed)
+      .filter((s) => s !== null)
+      .reduce((prev, cur) => ((prev as number) + (cur as number)), 0) as number
+    /
+      ships.filter((s) => s).length;
