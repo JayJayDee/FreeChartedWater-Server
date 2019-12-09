@@ -1,9 +1,18 @@
-import { Resolver, FieldResolver, Root } from 'type-graphql';
-import { Fleet, Ship, User } from '../../../libs/entities';
+import { Resolver, FieldResolver, Root, Mutation, Arg, Ctx } from 'type-graphql';
 import { getRepository } from 'typeorm';
+
+import { Fleet, Ship, User } from '../../../libs/entities';
+import { FleetMoveArgs } from './fleet-args';
+import { Context } from 'apollo-server-core';
 
 @Resolver((of) => Fleet)
 export class FleetResolver {
+
+  @Mutation((type) => Fleet)
+  public async move(@Arg('data') data: FleetMoveArgs, @Ctx() ctx: Context) {
+    const fleet = await getRepository(Fleet).findOne(data.fleetNo);
+    return fleet;
+  }
 
   @FieldResolver((type) => [ Ship ])
   public async ships(@Root() fleet: Fleet) {
