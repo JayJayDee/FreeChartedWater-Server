@@ -3,7 +3,7 @@ import { ObjectType, Field, ID } from 'type-graphql';
 import { Champion } from './champion';
 
 @Entity()
-@ObjectType()
+@ObjectType({ description: 'champion base' })
 export class BaseChampion {
 
   @PrimaryGeneratedColumn()
@@ -11,11 +11,11 @@ export class BaseChampion {
   public no: number;
 
   @Column()
-  @Field()
+  @Field({ description: 'baseChampion Code' })
   public nameCode: string;
 
   @Column()
-  @Field()
+  @Field({ description: 'age of champion' })
   public age: number;
 
   @OneToMany((type) => Champion, (champion) => champion.base)

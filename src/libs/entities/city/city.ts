@@ -13,18 +13,18 @@ export class City {
   public no: number;
 
   @Column()
-  @Field()
+  @Field({ description: 'city code' })
   public nameCode: string;
 
   @ManyToOne((type) => Country)
-  @Field((type) => Country)
+  @Field((type) => Country, { description: 'country of city' })
   public country: Country;
 
   @OneToMany((type) => Champion, (champion) => champion.spawn)
-  @Field((type) => [ Champion ])
+  @Field((type) => [ Champion ], { description: 'champions in city' })
   public champions: Champion[];
 
   @OneToMany((type) => Product, (product) => product.producedBy)
-  @Field((type) => [ Product ])
+  @Field((type) => [ Product ], { description: 'products which sells in city' })
   public products: Product[];
 }

@@ -11,10 +11,10 @@ export class Country {
   public no: number;
 
   @Column()
-  @Field()
+  @Field({ description: 'country code' })
   public nameCode: string;
 
   @OneToMany((type) => City, (city) => city.country)
-  @Field((type) => [ City ])
+  @Field((type) => [ City ], { description: 'cities in country' })
   public cities: City[];
 }

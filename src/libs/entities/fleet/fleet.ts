@@ -15,11 +15,11 @@ export class Fleet {
   @Column({
     length: 40,
   })
-  @Field()
+  @Field({ description: 'fleet name.' })
   public name: string;
 
   @ManyToOne((type) => User)
-  @Field((type) => User)
+  @Field((type) => User, { description: 'owner(user) of fleet' })
   public owner: User;
 
   @ManyToOne((type) => SeaSection, { nullable: true })
@@ -27,10 +27,10 @@ export class Fleet {
   public seaSection: SeaSection | null;
 
   @OneToMany((type) => Ship, (ship) => ship.fleet)
-  @Field((type) => [ Ship ])
+  @Field((type) => [ Ship ], { description: 'ships in fleet' })
   public ships: Ship[];
 
-  @Field((type) => Number, { nullable: true })
+  @Field((type) => Number, { nullable: true, description: 'fleet cruising speed' })
   public cruisingSpeed: number | null;
 
   @AfterLoad()
