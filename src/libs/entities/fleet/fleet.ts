@@ -35,7 +35,7 @@ export class Fleet {
 
   @AfterLoad()
   private afterFleetLoad() {
-    if (this.ships.length === 0) {
+    if (!this.ships) {
       return;
     }
     this.cruisingSpeed = calculateAverageCruisingSpeed(this.ships);
