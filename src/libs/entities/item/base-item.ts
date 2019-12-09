@@ -35,25 +35,25 @@ export class BaseItem {
   @Column({
     length: 40,
   })
-  @Field()
+  @Field({ description: 'code of baseItem' })
   public nameCode: string;
 
   @Column({
     type: 'enum',
     enum: ItemTypeEnum,
   })
-  @Field()
+  @Field({ description: 'item type, EQUIPABLE | CONSUMERABLE' })
   public type: ItemType;
 
   @Column({
     type: 'enum',
     enum: ItemEffectTypeEnum,
   })
-  @Field()
+  @Field({ description: 'effect target, CHAMPION | SHIP' })
   public effectType: ItemEffectType;
 
   @Column()
-  @Field()
+  @Field({ description: 'item effection point' })
   public effectPoint: number;
 
   @OneToMany((type) => Item, (item) => item.base)

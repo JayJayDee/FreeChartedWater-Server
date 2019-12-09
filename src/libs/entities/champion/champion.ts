@@ -26,7 +26,7 @@ export class Champion {
   public no: number;
 
   @Column()
-  @Field()
+  @Field({ description: 'level of champion' })
   public level: number;
 
   @ManyToOne((type) => BaseChampion, (base) => base.champions)
@@ -34,18 +34,18 @@ export class Champion {
   public base: BaseChampion;
 
   @ManyToOne((type) => User, { nullable: true })
-  @Field((type) => User, { nullable: true })
+  @Field((type) => User, { nullable: true, description: 'owner of champion, can be null' })
   public owner: User | null;
 
   @ManyToOne((type) => City, (city) => city.champions, { nullable: true })
-  @Field((type) => City, { nullable: true })
+  @Field((type) => City, { nullable: true, description: 'current city of champion, can be null' })
   public spawn: City | null;
 
   @OneToMany((type) => Item, (item) => item.ownedChampion)
-  @Field((type) => [ Item ])
+  @Field((type) => [ Item ], { description: 'equipped items of champion' })
   public equippedItems: Item[];
 
-  @Field((type) => ChampionStatusEnum)
+  @Field((type) => ChampionStatusEnum, { description: 'SPAWNED: just spawned in city, OWNED: owned by user' })
   public status: ChampionStatus;
 
   @AfterLoad()
