@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, AfterLoad, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, AfterLoad, OneToMany, Column } from 'typeorm';
 import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
 import { User } from '../user';
 import { BaseChampion } from './base-champion';
@@ -24,6 +24,10 @@ export class Champion {
   @PrimaryGeneratedColumn()
   @Field((type) => ID)
   public no: number;
+
+  @Column()
+  @Field()
+  public level: number;
 
   @ManyToOne((type) => BaseChampion, (base) => base.champions)
   @Field((type) => BaseChampion)

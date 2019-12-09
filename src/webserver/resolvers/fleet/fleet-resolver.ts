@@ -1,5 +1,5 @@
 import { Resolver, FieldResolver, Root } from 'type-graphql';
-import { Fleet, Ship, User } from '../../libs/entities';
+import { Fleet, Ship, User } from '../../../libs/entities';
 import { getRepository } from 'typeorm';
 
 @Resolver((of) => Fleet)
