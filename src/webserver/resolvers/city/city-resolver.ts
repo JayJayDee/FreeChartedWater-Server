@@ -1,6 +1,6 @@
 import { Resolver, FieldResolver, Root, Mutation, Arg } from 'type-graphql';
 import { getRepository } from 'typeorm';
-import { City, Country, Product, Ship } from '../../../libs/entities';
+import { City, Country, Product, Ship, Fleet } from '../../../libs/entities';
 import { ProductPurchaseArgs } from './city-args';
 
 @Resolver((of) => City)
@@ -37,5 +37,18 @@ export class CityResolver {
       return [];
     }
     return c.products;
+  }
+
+  @FieldResolver((type) => [ Fleet ])
+  public async fleets(@Root() city: City) {
+    const c = await getRepository(City).findOne({
+      where: { no: city.no },
+      relations: [ 'anchoredFleets' ],
+    });
+
+    if (!c) {
+      return [];
+    }
+    return c.anchoredFleets;
   }
 }

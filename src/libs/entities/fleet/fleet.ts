@@ -2,7 +2,9 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column, AfterLoad
 import { User } from '../user';
 import { Ship } from '../ship';
 import { SeaSection } from '../sea';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { ObjectType, Field, ID, Int } from 'type-graphql';
+import { City } from '../city';
+import { Position } from '../common';
 
 @Entity()
 @ObjectType()
@@ -17,6 +19,19 @@ export class Fleet {
   })
   @Field({ description: 'fleet name.' })
   public name: string;
+
+  @Column()
+  public posX: number;
+
+  @Column()
+  public posY: number;
+
+  @Field((type) => Position)
+  public position: Position;
+
+  @ManyToOne((type) => City)
+  @Field((type) => City, { nullable: true,  description: 'the fleet anchored city' })
+  public anchoredCity: City | null;
 
   @ManyToOne((type) => User)
   @Field((type) => User, { description: 'owner(user) of fleet' })
@@ -35,10 +50,15 @@ export class Fleet {
 
   @AfterLoad()
   private afterFleetLoad() {
-    if (!this.ships) {
-      return;
+    if (this.ships) {
+      this.cruisingSpeed = calculateAverageCruisingSpeed(this.ships);
     }
-    this.cruisingSpeed = calculateAverageCruisingSpeed(this.ships);
+
+    if (this.posX !== undefined && this.posY !== undefined) {
+      this.position = new Position();
+      this.position.x = this.posX;
+      this.position.y = this.posY;
+    }
   }
 }
 
