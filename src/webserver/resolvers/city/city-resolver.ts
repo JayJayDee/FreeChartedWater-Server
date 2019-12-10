@@ -1,26 +1,17 @@
-import { Resolver, FieldResolver, Root } from 'type-graphql';
-import { City, Country, Product } from '../../../libs/entities';
+import { Resolver, FieldResolver, Root, Mutation, Arg } from 'type-graphql';
 import { getRepository } from 'typeorm';
-
-@Resolver((of) => Country)
-export class CountryResolver {
-
-  @FieldResolver((type) => [ City ])
-  public async ships(@Root() country: Country) {
-    const c = await getRepository(Country).findOne({
-      where: { no: country.no },
-      relations: [ 'cities' ],
-    });
-
-    if (!c) {
-      return [];
-    }
-    return c.cities;
-  }
-}
+import { City, Country, Product, Ship } from '../../../libs/entities';
+import { ProductPurchaseArgs } from './city-args';
 
 @Resolver((of) => City)
 export class CityResolver {
+
+  @Mutation((type) => Ship)
+  public async purchaseFromCity(@Arg('data') data: ProductPurchaseArgs) {
+    // TODO: purchase transaction.
+    const s = await getRepository(Ship).findOne(data.shipNo);
+    return s;
+  }
 
   @FieldResolver((type) => Country)
   public async country(@Root() city: City) {
