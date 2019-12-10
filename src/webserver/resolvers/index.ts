@@ -1,11 +1,11 @@
 import { UserResolver } from './user-resolver';
 import { ChampionResolver } from './champion-resolver';
-import { BaseItemResolver, ItemResolver } from './item-resolver';
 import { BaseProductResolver, ProductResolver } from './product-resolver';
 
 import { FleetResolver } from './fleet';
 import { CountryResolver, CityResolver } from './city';
 import { BaseShipResolver, ShipResolver } from './ship';
+import { BaseItemResolver, ItemResolver } from './item';
 
 export const graphQLResolvers =
   () => {
