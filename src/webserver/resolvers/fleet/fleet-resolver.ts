@@ -1,7 +1,7 @@
 import { Resolver, FieldResolver, Root, Mutation, Arg, Ctx } from 'type-graphql';
 import { getRepository } from 'typeorm';
 
-import { Fleet, Ship, User } from '../../../libs/entities';
+import { Fleet, Ship, User, City } from '../../../libs/entities';
 import { FleetMoveArgs } from './fleet-args';
 import { Context } from 'apollo-server-core';
 
@@ -38,5 +38,20 @@ export class FleetResolver {
       return [];
     }
     return f.owner;
+  }
+
+  @FieldResolver((type) => City)
+  public async anchoredCity(@Root() fleet: Fleet) {
+    const f = await getRepository(Fleet).findOne({
+      where: { no: fleet.no },
+      relations: [ 'anchoredCity' ],
+    });
+
+    if (!f) {
+      return null;
+    } else if (!f.anchoredCity) {
+      return null;
+    }
+    return f.anchoredCity;
   }
 }

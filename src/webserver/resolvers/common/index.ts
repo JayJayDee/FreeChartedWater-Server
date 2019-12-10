@@ -1,1 +1,1 @@
-export { Position } from './position';
+export { PositionInput } from './position';
