@@ -1,7 +1,7 @@
 import { InputType, Field } from 'type-graphql';
 
 @InputType()
-export class Position {
+export class PositionInput {
 
   @Field()
   public x: number;

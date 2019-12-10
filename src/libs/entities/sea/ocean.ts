@@ -12,7 +12,7 @@ export class Ocean {
 
   @Column()
   @Field()
-  public name: string;
+  public nameCode: string;
 
   @OneToMany((type) => SeaSection, (section) => section.ocean)
   @Field((type) => [ SeaSection ])
