@@ -29,6 +29,8 @@ export class FleetResolver {
 
     const section = new FoundSection();
     section.cities = [];
+    section.items = [];
+    section.products = [];
     return section;
   }
 
