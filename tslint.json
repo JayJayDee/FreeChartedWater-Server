@@ -10,7 +10,8 @@
         "ordered-imports": false,
         "object-literal-sort-keys": false,
         "interface-name": false,
-        "max-classes-per-file": false
+        "max-classes-per-file": false,
+        "no-var-requires": false
     },
     "rulesDirectory": []
 }
