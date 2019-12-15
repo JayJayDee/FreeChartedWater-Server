@@ -3,6 +3,7 @@ import { ApolloServer } from 'apollo-server';
 import { GeneratingSchemaError } from 'type-graphql';
 
 import { log } from '../libs/logger';
+import { loadConfig } from '../libs/configs';
 import { initTypeORM } from '../libs/typeorm-initiator';
 import { AllEntities as entities } from '../libs/entities';
 
@@ -22,7 +23,9 @@ const tag = '[graphql-webserver]';
       playground: true,
     });
 
-    const { url } = await server.listen(3000);
+    const port = loadConfig('WEBSERVER_PORT');
+
+    const { url } = await server.listen(port);
     log.info(`${tag} GraphQL server started: ${url}`);
 
   } catch (err) {
