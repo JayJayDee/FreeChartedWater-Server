@@ -1,9 +1,12 @@
-import { log } from "../libs/logger";
+import { log } from '../libs/logger';
+import { loadConfig } from '../libs/configs';
 
 const tag = '[websocket-server]';
 
 (async () => {
   log.info(`${tag} server starting..`);
 
-  log.info(`${tag} server started.`);
+  const port = loadConfig('WEBSOCKET_PORT');
+
+  log.info(`${tag} websocket server started, port: ${port}`);
 })();
