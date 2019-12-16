@@ -1,4 +1,5 @@
 import SocketIO from 'socket.io';
+import redisAdapter from 'socket.io-redis';
 import { loadConfig } from '../../libs/configs';
 import { log } from '../../libs/logger';
 
@@ -15,7 +16,9 @@ export const initSocketIO = () => {
 
   if (useRedis) {
     log.info(`${tag} using redis pub-sub on socket.io`);
-    // TODO: configure socket.io-redis adapter
+    const host = loadConfig('WEBSOCKET_REDIS_HOST');
+    const port = loadConfig('WEBSOCKET_REDIS_PORT');
+    io.adapter(redisAdapter({ host, port }));
   }
 
   log.info(`${tag} socket.io ready`);
