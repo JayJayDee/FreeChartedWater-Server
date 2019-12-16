@@ -1,5 +1,6 @@
 import SocketIO from 'socket.io';
 import redisAdapter from 'socket.io-redis';
+
 import { loadConfig } from '../../libs/configs';
 import { log } from '../../libs/logger';
 

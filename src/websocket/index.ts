@@ -1,8 +1,12 @@
 import { createServer } from 'http';
+
 import { log } from '../libs/logger';
 import { loadConfig } from '../libs/configs';
 import { initTypeORM } from '../libs/typeorm-initiator';
+
 import { initSocketIO } from './socketio-initiator';
+import { initEventRouter } from './event-router';
+import { allEvents } from './events';
 
 const tag = '[websocket-server]';
 
@@ -16,9 +20,11 @@ const tag = '[websocket-server]';
   const server = createServer();
   const io = initSocketIO();
 
-  io.on('connection', (socket) => {
-    console.log('!');
-  });
+  const roomHandlers = allEvents();
+
+  io.on('connection',
+    (socket) =>
+      initEventRouter({ socket, roomHandlers }));
 
   io.attach(server);
 
