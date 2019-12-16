@@ -37,31 +37,76 @@ applications are same as followings:
 - worker
 
 ### webserver
-starts a GraphQL server.
+a GraphQL server for in-game logics.
+#### command
 ```bash
 npm run webserver
 ```
+#### configurations
+```bash
+MYSQL_HOST= mysql host
+MYSQL_PORT= mysql port
+MYSQL_USER= mysql user
+MYSQL_PASSWORD= password of user
+MYSQL_DATABASE= database name
+MYSQL_CONNECTION_LIMIT= number of connection limitation
+WEBSERVER_PORT= webserver port
+```
 
 ### websocket
+websocket(socket.io) server for asynchronous events.
+#### command
 starts a Websocket(socket.io) server.
 ```bash
 npm run websocket
 ```
+#### configurations
+```bash
+MYSQL_HOST= mysql host
+MYSQL_PORT= mysql port
+MYSQL_USER= mysql user
+MYSQL_PASSWORD= password of user
+MYSQL_DATABASE= database name
+MYSQL_CONNECTION_LIMIT= number of connection limitation
+WEBSOCKET_PORT= websocket server port
+WEBSOCKET_USE_REDIS= (nullable) using redis when set TRUE, default is FALSE
+WEBSOCKET_REDIS_HOST= (nullable) redis host
+WEBSOCKET_REDIS_PORT= (nullable) redis port
+```
 
 ### worker
+worker for periodical jobs. for example, changing the date in the game, changing inflation rate between cities.. will be executed in worker.
+#### command
 starts a Worker.
 ```bash
 npm run worker
 ```
+#### configurations
+```bash
+MYSQL_HOST= mysql host
+MYSQL_PORT= mysql port
+MYSQL_USER= mysql user
+MYSQL_PASSWORD= password of user
+MYSQL_DATABASE= database name
+MYSQL_CONNECTION_LIMIT= number of connection limitation
+WORKER_PERIOD= e.g) 60 -> worker will run every 60 seconds.
+```
 
 ### util:sync
 synchronizes schemas with given database configuration. it is useful when setting up a new database server.
+#### command
 ```bash
 npm run util:sync
 ```
-
-## How to configure application
-TBD
+#### configurations
+```bash
+MYSQL_HOST= mysql host
+MYSQL_PORT= mysql port
+MYSQL_USER= mysql user
+MYSQL_PASSWORD= password of user
+MYSQL_DATABASE= database name
+MYSQL_CONNECTION_LIMIT= number of connection limitation
+```
 
 ## How to test
 TBD
