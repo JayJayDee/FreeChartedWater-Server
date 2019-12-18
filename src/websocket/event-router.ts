@@ -14,6 +14,7 @@ export const initEventRouter =
     roomHandlers: RoomHandler[],
   }) => {
     log.debug(`${tag} client connected, ${socket.id}`);
+
     roomHandlers.forEach((handler) =>
-      socket.on(handler.event, handler.handler));
+      socket.on(handler.event, () => handler.handler(socket)));
   };
