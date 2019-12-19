@@ -1,8 +1,8 @@
 import { UserResolver } from './user-resolver';
-import { ChampionResolver } from './champion-resolver';
-import { BaseProductResolver, ProductResolver } from './product-resolver';
 
 import { FleetResolver } from './fleet';
+import { ChampionResolver } from './champion';
+import { BaseProductResolver, ProductResolver } from './product';
 import { CountryResolver, CityResolver } from './city';
 import { BaseShipResolver, ShipResolver } from './ship';
 import { BaseItemResolver, ItemResolver } from './item';

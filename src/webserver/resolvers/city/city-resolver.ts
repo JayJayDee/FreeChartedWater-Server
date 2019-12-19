@@ -1,14 +1,44 @@
 import { Resolver, FieldResolver, Root, Mutation, Arg, Query, Int } from 'type-graphql';
-import { getRepository } from 'typeorm';
-import { City, Country, Product, Ship, Fleet, Champion } from '../../../libs/entities';
+import { getRepository, getConnection } from 'typeorm';
+import { City, Country, Product, Ship, Fleet, Champion, User } from '../../../libs/entities';
 import { ProductPurchaseArgs } from './city-args';
+import { NotFoundError, NotEnoughGoldError } from '../../../libs/errors';
 
 @Resolver((of) => City)
 export class CityResolver {
 
   @Mutation((type) => Ship)
   public async purchaseFromCity(@Arg('data') data: ProductPurchaseArgs) {
-    // TODO: purchase transaction.
+
+    // purchase transaction.
+    await getConnection().transaction(async (mgr) => {
+      const user = await getRepository(User).findOne(data.userNo);
+      if (!user) {
+        throw new NotFoundError({ clazz: User, id: data.userNo });
+      }
+
+      const product = await getRepository(Product).findOne(data.productNo);
+      if (!product) {
+        throw new NotFoundError({ clazz: Product, id: data.productNo });
+      }
+
+      const ship = await getRepository(Ship).findOne(data.shipNo);
+      if (!ship) {
+        throw new NotFoundError({ clazz: Ship, id: data.shipNo });
+      }
+
+      product.producedBy = null;
+      product.loadedBy = ship;
+
+      user.gold = user.gold - product.price;
+      if (user.gold < 0) {
+        throw new NotEnoughGoldError({ userId: data.userNo });
+      }
+
+      await getRepository(Product).save(product);
+      await getRepository(User).save(user);
+    });
+
     const s = await getRepository(Ship).findOne(data.shipNo);
     return s;
   }

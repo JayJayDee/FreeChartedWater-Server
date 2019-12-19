@@ -1,6 +1,6 @@
 import { Resolver, FieldResolver, Root } from 'type-graphql';
 import { getRepository } from 'typeorm';
-import { BaseProduct, Product, Ship } from '../../libs/entities';
+import { BaseProduct, Product, Ship } from '../../../libs/entities';
 
 @Resolver((of) => BaseProduct)
 export class BaseProductResolver {
