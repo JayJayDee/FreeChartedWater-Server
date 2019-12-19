@@ -1,5 +1,5 @@
 import { Resolver, Root, FieldResolver } from 'type-graphql';
-import { Champion, BaseChampion, City, User } from '../../libs/entities';
+import { Champion, BaseChampion, City, User } from '../../../libs/entities';
 import { getRepository } from 'typeorm';
 
 @Resolver((of) => BaseChampion)
