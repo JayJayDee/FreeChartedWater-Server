@@ -1,8 +1,9 @@
 import { Resolver, FieldResolver, Root, Mutation, Arg, Query, Int } from 'type-graphql';
-import { getRepository, getConnection } from 'typeorm';
+import { getRepository, getConnection, Not } from 'typeorm';
 import { City, Country, Product, Ship, Fleet, Champion, User } from '../../../libs/entities';
+import { NotFoundError, NotEnoughGoldError, InvalidProductStateError } from '../../errors';
+
 import { ProductPurchaseArgs } from './city-args';
-import { NotFoundError, NotEnoughGoldError } from '../../../libs/errors';
 
 @Resolver((of) => City)
 export class CityResolver {
@@ -25,6 +26,10 @@ export class CityResolver {
       const ship = await getRepository(Ship).findOne(data.shipNo);
       if (!ship) {
         throw new NotFoundError({ clazz: Ship, id: data.shipNo });
+      }
+
+      if (product.producedBy === null || product.loadedBy !== null) {
+        throw new InvalidProductStateError({ productNo: product.no });
       }
 
       product.producedBy = null;

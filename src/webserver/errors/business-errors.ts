@@ -20,9 +20,3 @@ export class NotFoundError extends BaseBusinessError {
     super('NOT_FOUND', msg);
   }
 }
-
-export class NotEnoughGoldError extends BaseBusinessError {
-  constructor({ userId }: { userId: number }) {
-    super('NOT_ENOUGH_GOLD', `not enough gold, ${userId}`);
-  }
-}
