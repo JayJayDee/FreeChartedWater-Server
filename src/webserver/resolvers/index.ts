@@ -6,6 +6,7 @@ import { BaseProductResolver, ProductResolver } from './product';
 import { CountryResolver, CityResolver } from './city';
 import { BaseShipResolver, ShipResolver } from './ship';
 import { BaseItemResolver, ItemResolver } from './item';
+import { SeaSectionResolver } from './sea-section';
 
 export const graphQLResolvers =
   () => {
@@ -17,5 +18,6 @@ export const graphQLResolvers =
       BaseShipResolver, ShipResolver,
       BaseProductResolver, ProductResolver,
       CountryResolver, CityResolver,
+      SeaSectionResolver,
     ];
   };
