@@ -20,12 +20,7 @@ export class Fleet {
   @Field({ description: 'fleet name.' })
   public name: string;
 
-  @Column()
-  public posX: number;
-
-  @Column()
-  public posY: number;
-
+  @Column((type) => Position)
   @Field((type) => Position)
   public position: Position;
 

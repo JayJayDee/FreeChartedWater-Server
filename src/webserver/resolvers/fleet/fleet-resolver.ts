@@ -89,14 +89,6 @@ export class FleetResolver {
     return f.anchoredCity;
   }
 
-  @FieldResolver((type) => Position)
-  public async position(@Root() root: Fleet) {
-    const position = new Position();
-    position.x = root.posX;
-    position.y = root.posY;
-    return position;
-  }
-
   @FieldResolver((type) => Int, { nullable: true })
   public async cruisingSpeed(@Root() root: Fleet) {
     // TODO: CALCULATE

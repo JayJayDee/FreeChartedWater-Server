@@ -8,19 +8,10 @@ export class SeaSectionResolver {
 
   @FieldResolver((type) => Rect)
   public async region(@Root() root: SeaSection) {
-    const region = new Rect();
-
-    const topLeft = new Position();
-    topLeft.x = root.posTLX;
-    topLeft.y = root.posTLY;
-
-    const botRight = new Position();
-    botRight.x = root.posBRX;
-    botRight.y = root.posBRY;
-
-    region.topLeft = topLeft;
-    region.botRight = botRight;
-    return region;
+    return new Rect({
+      topLeft: root.positionTopLeft,
+      botRight: root.positionBotRight,
+    });
   }
 
   @FieldResolver((type) => [ Fleet ])
