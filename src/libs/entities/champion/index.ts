@@ -1,2 +1,2 @@
 export { BaseChampion } from './base-champion';
-export { Champion } from './champion';
+export { Champion, ChampionStatusEnum } from './champion';

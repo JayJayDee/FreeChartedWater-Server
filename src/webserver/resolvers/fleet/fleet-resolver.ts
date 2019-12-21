@@ -1,10 +1,11 @@
-import { Resolver, FieldResolver, Root, Mutation, Arg, Ctx, Query } from 'type-graphql';
+import { Resolver, FieldResolver, Root, Mutation, Arg, Ctx, Query, Int } from 'type-graphql';
 import { Context } from 'apollo-server-core';
 import { getRepository } from 'typeorm';
 
-import { Fleet, Ship, User, City } from '../../../libs/entities';
+import { Fleet, Ship, User, City, SeaSection } from '../../../libs/entities';
 import { FleetMoveArgs } from './fleet-args';
 import { FoundSection } from '../common';
+import { Position } from '../../../libs/entities/common';
 
 @Resolver((of) => Fleet)
 export class FleetResolver {
@@ -60,6 +61,19 @@ export class FleetResolver {
     return f.owner;
   }
 
+  @FieldResolver((type) => SeaSection, { nullable: true })
+  public async seaSection(@Root() fleet: Fleet) {
+    const f = await getRepository(Fleet).findOne({
+      where: { no: fleet.no },
+      relations: [ 'seaSection' ],
+    });
+
+    if (!f) {
+      return null;
+    }
+    return f.seaSection;
+  }
+
   @FieldResolver((type) => City)
   public async anchoredCity(@Root() fleet: Fleet) {
     const f = await getRepository(Fleet).findOne({
@@ -74,4 +88,32 @@ export class FleetResolver {
     }
     return f.anchoredCity;
   }
+
+  @FieldResolver((type) => Position)
+  public async position(@Root() root: Fleet) {
+    const position = new Position();
+    position.x = root.posX;
+    position.y = root.posY;
+    return position;
+  }
+
+  @FieldResolver((type) => Int, { nullable: true })
+  public async cruisingSpeed(@Root() root: Fleet) {
+    // TODO: CALCULATE
+    return 0;
+  }
+
+  @FieldResolver((type) => Boolean)
+  public async canSail(@Root() root: Fleet) {
+    // TODO: CALCULATE
+    return false;
+  }
 }
+
+const calculateAverageCruisingSpeed =
+  (ships: Ship[]) =>
+      ships.map((s) => s.cruisingSpeed)
+      .filter((s) => s !== null)
+      .reduce((prev, cur) => ((prev as number) + (cur as number)), 0) as number
+    /
+      ships.filter((s) => s).length;

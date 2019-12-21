@@ -1,15 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, AfterLoad } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 import { Ship } from '../ship';
 import { City } from '../city';
 import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
 import { BaseProduct } from './base-product';
 
-enum ProductStatusEnum {
+export enum ProductStatusEnum {
   SPAWNED = 'SPAWNED',
   SHIPPED = 'SHIPPED',
 }
 
-type ProductStatus = 'SPAWNED' | 'SHIPPED';
+export type ProductStatus = 'SPAWNED' | 'SHIPPED';
 
 registerEnumType(ProductStatusEnum, {
   name: 'ProductStatus',
@@ -54,13 +54,4 @@ export class Product {
 
   @Field((type) => ProductStatusEnum)
   public status: ProductStatus;
-
-  @AfterLoad()
-  private updateStatus() {
-    if (this.producedBy) {
-      this.status = 'SPAWNED';
-    } else {
-      this.status = 'SHIPPED';
-    }
-  }
 }

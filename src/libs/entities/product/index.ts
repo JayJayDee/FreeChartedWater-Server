@@ -1,2 +1,8 @@
+
 export { BaseProduct } from './base-product';
-export { Product } from './product';
+
+export {
+  Product,
+  ProductStatusEnum,
+  ProductStatus,
+} from './product';

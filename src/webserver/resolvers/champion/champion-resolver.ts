@@ -1,5 +1,5 @@
 import { Resolver, Root, FieldResolver } from 'type-graphql';
-import { Champion, BaseChampion, City, User } from '../../../libs/entities';
+import { Champion, BaseChampion, City, User, Enums } from '../../../libs/entities';
 import { getRepository } from 'typeorm';
 
 @Resolver((of) => BaseChampion)
@@ -54,5 +54,21 @@ export class ChampionResolver {
       return null;
     }
     return cham.owner;
+  }
+
+  @FieldResolver((type) => Enums.ChampionStatusEnum)
+  public async status(@Root() root: Champion): Promise<'SPAWNED' | 'OWNED'> {
+    const cham = await getRepository(Champion).findOne({
+      where: { no: root.no },
+      relations: [ 'owner', 'spawn' ],
+    });
+    if (!cham) {
+      throw new Error(`champion not found: ${root.no}`);
+    }
+
+    if (root.spawn) {
+      return 'SPAWNED';
+    }
+    return 'OWNED';
   }
 }
