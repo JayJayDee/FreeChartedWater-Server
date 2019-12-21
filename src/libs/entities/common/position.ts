@@ -1,13 +1,16 @@
 import { ObjectType, Field, Int } from 'type-graphql';
+import { Column } from 'typeorm';
 import { Rect } from './rect';
 
 @ObjectType()
 export class Position {
 
   @Field((type) => Int)
+  @Column()
   public x: number;
 
   @Field((type) => Int)
+  @Column()
   public y: number;
 
   constructor(param?: { x?: number, y?: number }) {

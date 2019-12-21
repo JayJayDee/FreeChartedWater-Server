@@ -1,6 +1,6 @@
 import { Resolver, FieldResolver, Root } from 'type-graphql';
 import { getRepository } from 'typeorm';
-import { BaseProduct, Product, Ship } from '../../../libs/entities';
+import { BaseProduct, Product, Ship, Enums } from '../../../libs/entities';
 
 @Resolver((of) => BaseProduct)
 export class BaseProductResolver {
@@ -55,5 +55,22 @@ export class ProductResolver {
       return null;
     }
     return prd.producedBy;
+  }
+
+  @FieldResolver((type) => Enums.ProductStatusEnum)
+  public async status(@Root() root: Product): Promise<'SPAWNED' | 'SHIPPED'> {
+    const prd = await getRepository(Product).findOne({
+      where: { no: root.no },
+      relations: [ 'producedBy', 'loadedBy' ],
+    });
+
+    if (!prd) {
+      throw new Error('product not found');
+    }
+
+    if (prd.loadedBy) {
+      return 'SHIPPED';
+    }
+    return 'SPAWNED';
   }
 }

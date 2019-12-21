@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, OneToMany, AfterLoad } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, OneToMany } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Ocean } from './ocean';
 import { Fleet } from '../fleet';
@@ -12,17 +12,13 @@ export class SeaSection {
   @Field((type) => ID)
   public no: number;
 
-  @Column()
-  public posTLX: number;
+  @Column((type) => Position)
+  @Field((type) => Position)
+  public positionTopLeft: Position;
 
-  @Column()
-  public posTLY: number;
-
-  @Column()
-  public posBRX: number;
-
-  @Column()
-  public posBRY: number;
+  @Column((type) => Position)
+  @Field((type) => Position)
+  public positionBotRight: Position;
 
   @Field((type) => Rect)
   public region: Rect;
@@ -34,19 +30,4 @@ export class SeaSection {
   @OneToMany((type) => Fleet, (fleet) => fleet.seaSection)
   @Field((type) => [ Fleet ])
   public fleets: Fleet[];
-
-  @AfterLoad()
-  private afterLoad() {
-    const topLeft = new Position();
-    topLeft.x = this.posTLX;
-    topLeft.y = this.posTLY;
-
-    const botRight = new Position();
-    botRight.x = this.posBRX;
-    botRight.y = this.posBRY;
-
-    const rect = new Rect();
-    rect.topLeft = topLeft;
-    rect.botRight = botRight;
-  }
 }

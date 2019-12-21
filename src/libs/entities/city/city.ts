@@ -4,6 +4,8 @@ import { Country } from './country';
 import { Champion } from '../champion';
 import { Product } from '../product';
 import { Fleet } from '../fleet';
+import { Sites } from './sites';
+import { Position } from '../common';
 
 @Entity()
 @ObjectType()
@@ -16,6 +18,14 @@ export class City {
   @Column()
   @Field({ description: 'city code' })
   public nameCode: string;
+
+  @Column((type) => Position)
+  @Field((type) => Position)
+  public position: Position;
+
+  @Column((type) => Sites)
+  @Field((type) => Sites)
+  public sites: Sites;
 
   @ManyToOne((type) => Country)
   @Field((type) => Country, { description: 'country of city' })

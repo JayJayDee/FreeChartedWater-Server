@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver, Root } from 'type-graphql';
+import { Resolver, FieldResolver, Root, Int } from 'type-graphql';
 import { Ship, BaseShip, Fleet, Product } from '../../../libs/entities';
 import { getRepository } from 'typeorm';
 
@@ -41,4 +41,32 @@ export class ShipResolver {
     }
     return s.products;
   }
+
+  @FieldResolver((type) => Int, { nullable: true })
+  public async cruisingSpeed(@Root() ship: Ship) {
+    // TODO: CALCULATE
+    return 0;
+  }
+
+  @FieldResolver((type) => Int, { nullable: true })
+  public async availableCruisingDay(@Root() ship: Ship) {
+    // TODO: CALCULATE
+    return 0;
+  }
 }
+
+const calculateCruisingSpeed =
+  ({ currentCrew, maxCrew, currentCapacity, maxCapacity }: {
+    currentCrew: number, maxCrew: number, currentCapacity: number, maxCapacity: number,
+  }) => {
+    // TODO: calculate cruising speed.
+    return 0;
+  };
+
+const calculateCruisingDay =
+  ({ currentCrew, currentCapacity }: {
+    currentCrew: number, currentCapacity: number,
+  }) => {
+    // TODO: calculate available cruising day.
+    return 0;
+  };

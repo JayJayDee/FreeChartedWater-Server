@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column, AfterLoad } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column } from 'typeorm';
 import { User } from '../user';
 import { Ship } from '../ship';
 import { SeaSection } from '../sea';
-import { ObjectType, Field, ID, Int } from 'type-graphql';
+import { ObjectType, Field, ID } from 'type-graphql';
 import { City } from '../city';
 import { Position } from '../common';
 
@@ -20,12 +20,7 @@ export class Fleet {
   @Field({ description: 'fleet name.' })
   public name: string;
 
-  @Column()
-  public posX: number;
-
-  @Column()
-  public posY: number;
-
+  @Column((type) => Position)
   @Field((type) => Position)
   public position: Position;
 
@@ -48,24 +43,6 @@ export class Fleet {
   @Field((type) => Number, { nullable: true, description: 'fleet cruising speed' })
   public cruisingSpeed: number | null;
 
-  @AfterLoad()
-  private afterFleetLoad() {
-    if (this.ships) {
-      this.cruisingSpeed = calculateAverageCruisingSpeed(this.ships);
-    }
-
-    if (this.posX !== undefined && this.posY !== undefined) {
-      this.position = new Position();
-      this.position.x = this.posX;
-      this.position.y = this.posY;
-    }
-  }
+  @Field((type) => Boolean, { description: 'notates if the fleet can sail' })
+  public canSail: boolean;
 }
-
-const calculateAverageCruisingSpeed =
-  (ships: Ship[]) =>
-      ships.map((s) => s.cruisingSpeed)
-      .filter((s) => s !== null)
-      .reduce((prev, cur) => ((prev as number) + (cur as number)), 0) as number
-    /
-      ships.filter((s) => s).length;

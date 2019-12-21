@@ -1,16 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, AfterLoad, OneToMany, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column } from 'typeorm';
 import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
 import { User } from '../user';
 import { BaseChampion } from './base-champion';
 import { City } from '../city';
 import { Item } from '../item';
 
-enum ChampionStatusEnum {
+export enum ChampionStatusEnum {
   SPAWNED = 'SPAWNED',
   OWNED = 'OWNED',
 }
 
-type ChampionStatus = 'SPAWNED' | 'OWNED';
+export type ChampionStatus = 'SPAWNED' | 'OWNED';
 
 registerEnumType(ChampionStatusEnum, {
   name: 'ChampionStatus',
@@ -47,13 +47,4 @@ export class Champion {
 
   @Field((type) => ChampionStatusEnum, { description: 'SPAWNED: just spawned in city, OWNED: owned by user' })
   public status: ChampionStatus;
-
-  @AfterLoad()
-  private afterLoad() {
-    if (this.spawn) {
-      this.status = 'SPAWNED';
-    } else {
-      this.status = 'OWNED';
-    }
-  }
 }

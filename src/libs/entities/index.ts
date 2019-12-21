@@ -1,11 +1,11 @@
 import { User } from './user';
 import { Ship, BaseShip } from './ship';
 import { SeaSection, Ocean } from './sea';
-import { Product, BaseProduct } from './product';
+import { Product, BaseProduct, ProductStatusEnum } from './product';
 import { Item, BaseItem } from './item';
 import { Fleet } from './fleet';
 import { City, Country } from './city';
-import { Champion, BaseChampion } from './champion';
+import { Champion, BaseChampion, ChampionStatusEnum } from './champion';
 
 const AllEntities = [
   User,
@@ -28,4 +28,9 @@ export {
   Fleet,
   City, Country,
   Champion, BaseChampion,
+};
+
+export const Enums = {
+  ProductStatusEnum,
+  ChampionStatusEnum,
 };
