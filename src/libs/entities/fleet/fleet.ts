@@ -24,6 +24,10 @@ export class Fleet {
   @Field((type) => Position)
   public position: Position;
 
+  @Column((type) => Position)
+  @Field((type) => Position, { nullable: true })
+  public direction?: Position;
+
   @ManyToOne((type) => City)
   @Field((type) => City, { nullable: true,  description: 'the fleet anchored city' })
   public anchoredCity: City | null;
