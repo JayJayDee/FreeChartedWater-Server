@@ -5,7 +5,6 @@ import { getRepository } from 'typeorm';
 import { Fleet, Ship, User, City, SeaSection } from '../../../libs/entities';
 import { FleetMoveArgs } from './fleet-args';
 import { FoundSection } from '../common';
-import { Position } from '../../../libs/entities/common';
 
 @Resolver((of) => Fleet)
 export class FleetResolver {

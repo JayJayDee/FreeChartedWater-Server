@@ -13,6 +13,27 @@ I'm a big fan of the Koei's [Uncharted Waters](https://en.wikipedia.org/wiki/Unc
 
 so, I decided to make my own Uncharted Water game, so this is the reason why the name of project is 'FreeChartedWater'.
 
+## Game Concept
+
+### The coodinate system
+The game is modeling the earth's surface, but not strictly using the exact coordinate system.
+
+For ease of development, I used a simple two-dimensional planar coordinate system rather than latitude/longitude model.
+
+For example, `city`: Lisbon's coordinates can be expressed like followings:
+```bash
+city: { x: 3000, y: 3000, radius: 30 }
+```
+
+Suppose you have a `fleet` named Raphael. The flagship of this fleet has coordinates and has a discoverable radius.
+the fleet can be expressed like followings: 
+``` bash
+fleet: { x: 2990, y: 2990, discoverable_radius: 30 }
+```
+If a collision between two circles is detected, the fleet may assume that it has found the city.
+
+
+
 ## Environments
 - node.js 10.x
 - MariaDB or MySQL
