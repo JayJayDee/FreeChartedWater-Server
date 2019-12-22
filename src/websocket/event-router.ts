@@ -5,7 +5,7 @@ const tag = '[event-router]';
 
 interface RoomHandler {
   event: string;
-  handler: (socket: Socket) => Promise<void>;
+  handler: (socket: Socket, data: any) => Promise<void | any>;
 }
 
 export const initEventRouter =
@@ -16,5 +16,23 @@ export const initEventRouter =
     log.debug(`${tag} client connected, ${socket.id}`);
 
     roomHandlers.forEach((handler) =>
-      socket.on(handler.event, () => handler.handler(socket)));
+      socket.on(handler.event, (data, callback) => {
+        handler.handler(socket, data)
+        .then((response) => {
+          if (response) {
+            callback({
+              success: true,
+              response,
+            });
+          }
+        })
+        .catch((err) => {
+          log.error(`${tag} error occured in event:${handler.event}`);
+          log.error(err);
+          callback({
+            success: false,
+            error: err.message,
+          });
+        });
+      }));
   };
