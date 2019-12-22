@@ -10,7 +10,7 @@ const tag = `[event:${event}]`;
 export const onJoinGlobal = (): RoomHandler =>
   ({
     event,
-    handler: async (socket) => {
+    handler: async (socket, data) => {
       log.debug(`${tag} event started, ${socket.id}`);
       if (socket.rooms[room]) {
         log.debug(`${tag} already joined room. ${socket.id}`);
@@ -18,5 +18,6 @@ export const onJoinGlobal = (): RoomHandler =>
       }
       await joinWrap(socket, 'global');
       log.debug(`${tag} event processed, ${socket.id}`);
+      return 0;
     },
   });
