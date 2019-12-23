@@ -6,11 +6,11 @@ import { Rect } from './rect';
 export class Position {
 
   @Field((type) => Int)
-  @Column()
+  @Column({ nullable: true })
   public x: number;
 
   @Field((type) => Int)
-  @Column()
+  @Column({ nullable: true })
   public y: number;
 
   constructor(param?: { x?: number, y?: number }) {

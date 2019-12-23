@@ -1,4 +1,4 @@
-import { createConnection, EntitySchema } from 'typeorm';
+import { createConnection } from 'typeorm';
 import { loadConfig } from '../configs';
 import { log } from '../logger';
 

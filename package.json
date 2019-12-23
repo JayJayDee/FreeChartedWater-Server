@@ -7,6 +7,7 @@
     "dev:util:pourer": "nodemon --watch ./src -e ts --exec \"ts-node -T --project ./tsconfig.json ./src/utils/pourer\"",
     "dev:webserver": "nodemon --watch ./src -e ts --exec \"ts-node -T --project ./tsconfig.json ./src/webserver\"",
     "dev:websocket": "nodemon --watch ./src -e ts --exec \"ts-node -T --project ./tsconfig.json ./src/websocket\"",
+    "dev:worker:movefleet": "nodemon --watch ./src -e ts --exec \"ts-node -T --project ./tsconfig.json ./src/worker/jobs/move-fleet\"",
     "util:sync": "ts-node -T --project ./tsconfig.json ./src/utils/synchronizer",
     "util:pourer": "ts-node -T --project ./tsconfig.json ./src/utils/pourer",
     "webserver": "ts-node -T --project ./tsconfig.json ./src/webserver",
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/JayJayDee/Node-FreeChartedWater#readme",
   "devDependencies": {
+    "@types/lodash": "^4.14.149",
     "@types/node": "^12.12.14",
     "@types/node-fetch": "^2.5.4",
     "@types/socket.io": "^2.1.4",
@@ -38,8 +40,10 @@
   "dependencies": {
     "apollo-server": "^2.9.12",
     "chalk": "^3.0.0",
+    "dataloader": "^2.0.0",
     "dotenv": "^8.2.0",
     "graphql": "^14.5.8",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mysql2": "^2.0.1",
     "node-fetch": "^2.6.0",
