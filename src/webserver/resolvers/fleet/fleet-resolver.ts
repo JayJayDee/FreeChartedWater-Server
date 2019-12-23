@@ -1,11 +1,12 @@
 import { Resolver, FieldResolver, Root, Mutation, Arg, Ctx, Query, Int } from 'type-graphql';
 import { Context } from 'apollo-server-core';
-import { getRepository } from 'typeorm';
+import { getRepository, getCustomRepository } from 'typeorm';
 
 import { Fleet, Ship, User, City, SeaSection } from '../../../libs/entities';
 import { FleetMoveArgs } from './fleet-args';
 import { FoundSection } from '../common';
 import { Position } from '../../../libs/entities/common';
+import { ShipRepository } from '../../../libs/repositories';
 
 @Resolver((of) => Fleet)
 export class FleetResolver {
@@ -48,15 +49,7 @@ export class FleetResolver {
 
   @FieldResolver((type) => [ Ship ])
   public async ships(@Root() fleet: Fleet) {
-    const f = await getRepository(Fleet).findOne({
-      where: { no: fleet.no },
-      relations: [ 'ships' ],
-    });
-
-    if (!f) {
-      return [];
-    }
-    return f.ships;
+    return getCustomRepository(ShipRepository).getShipsByFleetNos([ fleet.no ]);
   }
 
   @FieldResolver((type) => User)

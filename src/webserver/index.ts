@@ -14,7 +14,7 @@ const tag = '[graphql-webserver]';
 (async () => {
 
   try {
-    const logging = false;
+    const logging = true;
     await initTypeORM({ logging, entities });
 
     const schema = await graphQLSchema();

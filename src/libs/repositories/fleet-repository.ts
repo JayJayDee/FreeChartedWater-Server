@@ -1,7 +1,8 @@
-import { Repository } from 'typeorm';
+import { AbstractRepository, EntityRepository, getRepository } from 'typeorm';
 import { Fleet } from '../entities';
 
-export class FleetRepository extends Repository<Fleet> {
+@EntityRepository()
+export class FleetRepository extends AbstractRepository<Fleet> {
 
   public async queryMovingFleets() {
     // TODO: query moving (= direction is not null) fleets
