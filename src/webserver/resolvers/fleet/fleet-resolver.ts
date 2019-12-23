@@ -1,6 +1,6 @@
 import { Resolver, FieldResolver, Root, Mutation, Arg, Ctx, Query, Int } from 'type-graphql';
 import { Context } from 'apollo-server-core';
-import { getRepository, MoreThanOrEqual, LessThanOrEqual, getConnection } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import { Fleet, Ship, User, City, SeaSection } from '../../../libs/entities';
 import { FleetMoveArgs } from './fleet-args';
@@ -11,39 +11,19 @@ import { Position } from '../../../libs/entities/common';
 export class FleetResolver {
 
   @Mutation((type) => Fleet)
-  public async move(@Arg('data') data: FleetMoveArgs, @Ctx() ctx: Context) {
+  public async moveFleet(@Arg('data') data: FleetMoveArgs, @Ctx() ctx: Context) {
     const fleet = await getRepository(Fleet).findOne(data.fleetNo);
     if (!fleet) {
       throw new Error(`fleet not found: ${data.fleetNo}`);
     }
 
-    const seaSections = await getRepository(SeaSection).find({
-      where: {
-        positionTopLeft: {
-          x: MoreThanOrEqual(data.position.x),
-          y: MoreThanOrEqual(data.position.y),
-        },
-        positionBotRight: {
-          x: LessThanOrEqual(data.position.x),
-          y: LessThanOrEqual(data.position.y),
-        },
-      },
+    const direction = new Position({
+      x: data.position.x,
+      y: data.position.y,
     });
 
-    await getConnection().transaction(async (mgr) => {
-      const direction = new Position({
-        x: data.position.x,
-        y: data.position.y,
-      });
-
-      fleet.direction = direction;
-      await mgr.getRepository(Fleet).save(fleet);
-
-      // TODO: query seaSection and update fleet.
-    });
-
-    // TODO: update direction of fleet
-
+    fleet.direction = direction;
+    await getRepository(Fleet).save(fleet);
     return fleet;
   }
 
