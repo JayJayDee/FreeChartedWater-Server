@@ -1,5 +1,5 @@
 import { AbstractRepository, EntityRepository, getRepository, In } from 'typeorm';
-import { Fleet, Ship } from '../entities';
+import { Fleet } from '../entities';
 
 @EntityRepository()
 export class FleetRepository extends AbstractRepository<Fleet> {
@@ -10,13 +10,12 @@ export class FleetRepository extends AbstractRepository<Fleet> {
   }
 
   public async getShipsInFleets(fleetIds: number[]) {
-    const ships = await getRepository(Ship).find({
+    const fleets = await getRepository(Fleet).find({
       where: {
-        fleet: {
-          no: In(fleetIds),
-        },
+        no: In(fleetIds),
       },
+      relations: [ 'ships' ],
     });
-    return ships;
+    return fleets.map((f) => f.ships);
   }
 }
