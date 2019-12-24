@@ -1,25 +1,14 @@
 import { Resolver, FieldResolver, Root, Mutation, Arg, Ctx, Query, Int } from 'type-graphql';
 import { Context } from 'apollo-server-core';
-import { getRepository, getCustomRepository } from 'typeorm';
-import DataLoader = require('dataloader');
+import { getRepository } from 'typeorm';
 
 import { Fleet, Ship, User, City, SeaSection } from '../../../libs/entities';
 import { FleetMoveArgs } from './fleet-args';
 import { FoundSection } from '../common';
 import { Position } from '../../../libs/entities/common';
-import { FleetRepository } from '../../../libs/repositories';
 
 @Resolver((of) => Fleet)
 export class FleetResolver {
-
-  private shipsLoader: DataLoader<number, Ship>;
-
-  constructor() {
-    this.shipsLoader =
-      new DataLoader((keys) =>
-        getCustomRepository(FleetRepository)
-          .getShipsInFleets(keys as any[]));
-  }
 
   @Mutation((type) => Fleet)
   public async moveFleet(@Arg('data') data: FleetMoveArgs, @Ctx() ctx: Context) {
@@ -59,8 +48,13 @@ export class FleetResolver {
 
   @FieldResolver((type) => [ Ship ])
   public async ships(@Root() fleet: Fleet) {
-    const ships = await this.shipsLoader.loadMany([ fleet.no ]);
-    return ships;
+    return getRepository(Ship).find({
+      where: {
+        fleet: {
+          no: fleet.no,
+        },
+      },
+    });
   }
 
   @FieldResolver((type) => User)
