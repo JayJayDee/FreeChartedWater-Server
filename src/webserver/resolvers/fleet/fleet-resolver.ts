@@ -18,7 +18,9 @@ export class FleetResolver {
     this.shipsLoader =
       new DataLoader((fleetIds) =>
         getCustomRepository(FleetRepository)
-          .getShipsInFleets(fleetIds as any[]));
+          .getShipsInFleets(fleetIds as any[]), {
+            cache: false,
+          });
   }
 
   @Mutation((type) => Fleet)
