@@ -1,4 +1,4 @@
-import { buildDataLoader } from './builder';
+import { buildDataLoaderSimple } from './builder';
 import { Ship } from '../../libs/entities/ship';
 import { getCustomRepository, getRepository } from 'typeorm';
 import { FleetRepository } from '../../libs/repositories';
@@ -10,7 +10,7 @@ const cvt = <T, W>(src: T) => src as W;
 export const fleetLoader = {
 
   shipsInFleets: () =>
-    buildDataLoader<number, Ship[]>({
+    buildDataLoaderSimple<number, Ship[]>({
       async fetcher(keys) {
         return getCustomRepository(FleetRepository)
           .getShipsInFleets(cvt<readonly number[], number[]>(keys));
@@ -18,7 +18,7 @@ export const fleetLoader = {
     }),
 
   ownerInFleets: () =>
-    buildDataLoader<number, User>({
+    buildDataLoaderSimple<number, User>({
       async fetcher(keys) {
         const fleets =
           await getRepository(Fleet)
