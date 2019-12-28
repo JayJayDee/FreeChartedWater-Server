@@ -1,8 +1,8 @@
-import { buildDataLoaderSimple } from './builder';
+import { buildDataLoaderSimple, buildDataLoaderTypeORMParent } from './builder';
 import { Ship } from '../../libs/entities/ship';
 import { getCustomRepository, getRepository } from 'typeorm';
 import { FleetRepository } from '../../libs/repositories';
-import { User, Fleet } from '../../libs/entities';
+import { User, Fleet, SeaSection } from '../../libs/entities';
 
 // @ts-ignore
 const cvt = <T, W>(src: T) => src as W;
@@ -27,5 +27,5 @@ export const fleetLoader = {
             });
         return fleets.map((f) => f.owner);
       },
-  }),
+    }),
 };

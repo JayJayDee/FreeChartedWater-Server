@@ -8,14 +8,14 @@ export const buildDataLoaderSimple =
     new DataLoader(fetcher, { cache: false });
 
 export const buildDataLoaderTypeORMParent =
-  <KEY, TARGET>({ relation, schema }: {
+  <KEY, BASE, TARGET>({ relation, schema }: {
     relation: string,
-    schema: EntitySchema<TARGET>,
+    schema: EntitySchema<BASE>,
   }) => {
-    return new DataLoader(async (keys) => {
+    return new DataLoader(async (keys: readonly KEY[]) => {
       const elems =
         await getRepository(schema)
-          .findByIds(keys as any[], {
+          .findByIds(keys as KEY[], {
             relations: [ relation ],
           });
       // @ts-ignore
