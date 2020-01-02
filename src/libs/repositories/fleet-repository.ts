@@ -18,4 +18,13 @@ export class FleetRepository extends AbstractRepository<Fleet> {
     });
     return fleets.map((f) => f.ships);
   }
+
+  public async getOwnersInFleets(fleetIds: number[]) {
+    const fleets =
+      await getRepository(Fleet)
+        .findByIds(fleetIds, {
+          relations: [ 'owner' ],
+        });
+    return fleets.map((f) => f.owner);
+  }
 }

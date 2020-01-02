@@ -48,13 +48,13 @@ export class FleetResolver {
   }
 
   @FieldResolver((type) => [ Ship ])
-  public async ships(@Root() fleet: Fleet) {
-    return fleetLoader.shipsInFleets().load(fleet.no);
+  public ships(@Root() fleet: Fleet) {
+    return fleetLoader.shipsInFleets.load(fleet.no);
   }
 
   @FieldResolver((type) => User)
   public async owner(@Root() fleet: Fleet) {
-    return fleetLoader.ownerInFleets().load(fleet.no);
+    return fleetLoader.ownerInFleets.load(fleet.no);
   }
 
   @FieldResolver((type) => SeaSection, { nullable: true })
