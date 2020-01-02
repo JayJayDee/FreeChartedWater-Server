@@ -48,41 +48,23 @@ export class FleetResolver {
   }
 
   @FieldResolver((type) => [ Ship ])
-  public async ships(@Root() fleet: Fleet) {
-    return fleetLoader.shipsInFleets().load(fleet.no);
+  public ships(@Root() fleet: Fleet) {
+    return fleetLoader.shipsInFleets.load(fleet.no);
   }
 
   @FieldResolver((type) => User)
-  public async owner(@Root() fleet: Fleet) {
-    return fleetLoader.ownerInFleets().load(fleet.no);
+  public owner(@Root() fleet: Fleet) {
+    return fleetLoader.ownerInFleets.load(fleet.no);
   }
 
   @FieldResolver((type) => SeaSection, { nullable: true })
-  public async seaSection(@Root() fleet: Fleet) {
-    const f = await getRepository(Fleet).findOne({
-      where: { no: fleet.no },
-      relations: [ 'seaSection' ],
-    });
-
-    if (!f) {
-      return null;
-    }
-    return f.seaSection;
+  public seaSection(@Root() fleet: Fleet) {
+    return fleetLoader.seaSectionsInFleets.load(fleet.no);
   }
 
   @FieldResolver((type) => City)
-  public async anchoredCity(@Root() fleet: Fleet) {
-    const f = await getRepository(Fleet).findOne({
-      where: { no: fleet.no },
-      relations: [ 'anchoredCity' ],
-    });
-
-    if (!f) {
-      return null;
-    } else if (!f.anchoredCity) {
-      return null;
-    }
-    return f.anchoredCity;
+  public anchoredCity(@Root() fleet: Fleet) {
+    return fleetLoader.anchoredCitiesInFleets.load(fleet.no);
   }
 
   @FieldResolver((type) => Int, { nullable: true })

@@ -1,31 +1,29 @@
-import { buildDataLoaderSimple, buildDataLoaderTypeORMParent } from './builder';
-import { Ship } from '../../libs/entities/ship';
-import { getCustomRepository, getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import { FleetRepository } from '../../libs/repositories';
-import { User, Fleet, SeaSection } from '../../libs/entities';
-
-// @ts-ignore
-const cvt = <T, W>(src: T) => src as W;
+import DataLoader from 'dataloader';
 
 export const fleetLoader = {
+  shipsInFleets:
+    new DataLoader((keys) =>
+      getCustomRepository(FleetRepository)
+        .getShipsInFleets(keys as number[]),
+      { cache: false }),
 
-  shipsInFleets: () =>
-    buildDataLoaderSimple<number, Ship[]>({
-      async fetcher(keys) {
-        return getCustomRepository(FleetRepository)
-          .getShipsInFleets(cvt<readonly number[], number[]>(keys));
-      },
-    }),
+  ownerInFleets:
+    new DataLoader((keys) =>
+      getCustomRepository(FleetRepository)
+        .getOwnersInFleets(keys as number[]),
+      { cache: false }),
 
-  ownerInFleets: () =>
-    buildDataLoaderSimple<number, User>({
-      async fetcher(keys) {
-        const fleets =
-          await getRepository(Fleet)
-            .findByIds(cvt<readonly number[], number[]>(keys), {
-              relations: [ 'owner' ],
-            });
-        return fleets.map((f) => f.owner);
-      },
-    }),
+  seaSectionsInFleets:
+    new DataLoader((keys) =>
+      getCustomRepository(FleetRepository)
+        .getSeaSectionsInFleets(keys as number[]),
+      { cache: false }),
+
+  anchoredCitiesInFleets:
+    new DataLoader((keys) =>
+      getCustomRepository(FleetRepository)
+        .getAnchoredCitiesInFlets(keys as number[]),
+      { cache: false }),
 };
