@@ -27,4 +27,22 @@ export class FleetRepository extends AbstractRepository<Fleet> {
         });
     return fleets.map((f) => f.owner);
   }
+
+  public async getSeaSectionsInFleets(fleetIds: number[]) {
+    const fleets =
+      await getRepository(Fleet)
+        .findByIds(fleetIds, {
+          relations: [ 'seaSection' ],
+        });
+    return fleets.map((f) => f.seaSection);
+  }
+
+  public async getAnchoredCitiesInFlets(fleetIds: number[]) {
+    const fleets =
+      await getRepository(Fleet)
+        .findByIds(fleetIds, {
+          relations: [ 'anchoredCity' ],
+        });
+    return fleets.map((f) => f.anchoredCity);
+  }
 }

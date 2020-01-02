@@ -14,4 +14,16 @@ export const fleetLoader = {
       getCustomRepository(FleetRepository)
         .getOwnersInFleets(keys as number[]),
       { cache: false }),
+
+  seaSectionsInFleets:
+    new DataLoader((keys) =>
+      getCustomRepository(FleetRepository)
+        .getSeaSectionsInFleets(keys as number[]),
+      { cache: false }),
+
+  anchoredCitiesInFleets:
+    new DataLoader((keys) =>
+      getCustomRepository(FleetRepository)
+        .getAnchoredCitiesInFlets(keys as number[]),
+      { cache: false }),
 };
