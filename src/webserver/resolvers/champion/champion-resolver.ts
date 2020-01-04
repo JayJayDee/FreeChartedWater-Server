@@ -1,6 +1,7 @@
 import { Resolver, Root, FieldResolver } from 'type-graphql';
 import { Champion, BaseChampion, City, User, Enums } from '../../../libs/entities';
-import { getRepository } from 'typeorm';
+import { getRepository, getCustomRepository } from 'typeorm';
+import { ChampionRepository } from '../../../libs/repositories/champion-repository';
 
 @Resolver((of) => BaseChampion)
 export class BaseChampionResolver {
@@ -19,54 +20,33 @@ export class BaseChampionResolver {
 @Resolver((of) => Champion)
 export class ChampionResolver {
 
+  private championRepo: ChampionRepository;
+
+  constructor() {
+    this.championRepo = getCustomRepository(ChampionRepository);
+  }
+
   @FieldResolver((type) => BaseChampion)
-  public async base(@Root() champion: Champion) {
-    const cham =
-      await getRepository(Champion).findOne({
-        where: { no: champion.no },
-        relations: [ 'base' ],
-      });
-    if (!cham) {
-      return null;
-    }
-    return cham.base;
+  public base(@Root() champion: Champion) {
+    return this.championRepo.getBaseInChampion(champion.no);
   }
 
   @FieldResolver((type) => City)
-  public async spawn(@Root() champion: Champion) {
-    const cham = await getRepository(Champion).findOne({
-      where: { no: champion.no },
-      relations: [ 'spawn' ],
-    });
-    if (!cham) {
-      return null;
-    }
-    return cham.spawn;
+  public spawn(@Root() champion: Champion) {
+    return this.championRepo.getSpawnInChampion(champion.no);
   }
 
   @FieldResolver((type) => User)
-  public async owner(@Root() champion: Champion) {
-    const cham = await getRepository(Champion).findOne({
-      where: { no: champion.no },
-      relations: [ 'owner' ],
-    });
-    if (!cham) {
-      return null;
-    }
-    return cham.owner;
+  public owner(@Root() champion: Champion) {
+    return this.championRepo.getOwnerInChampion(champion.no);
   }
 
   @FieldResolver((type) => Enums.ChampionStatusEnum)
   public async status(@Root() root: Champion): Promise<'SPAWNED' | 'OWNED'> {
-    const cham = await getRepository(Champion).findOne({
-      where: { no: root.no },
-      relations: [ 'owner', 'spawn' ],
-    });
-    if (!cham) {
-      throw new Error(`champion not found: ${root.no}`);
-    }
+    const spawn = await this.championRepo.getSpawnInChampion(root.no);
+    const owner = await this.championRepo.getOwnerInChampion(root.no);
 
-    if (root.spawn) {
+    if (spawn && !owner) {
       return 'SPAWNED';
     }
     return 'OWNED';
