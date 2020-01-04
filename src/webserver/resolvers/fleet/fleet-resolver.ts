@@ -1,15 +1,21 @@
 import { Resolver, FieldResolver, Root, Mutation, Arg, Ctx, Query, Int } from 'type-graphql';
 import { Context } from 'apollo-server-core';
-import { getRepository } from 'typeorm';
+import { getRepository, getCustomRepository } from 'typeorm';
 
 import { Fleet, Ship, User, City, SeaSection } from '../../../libs/entities';
 import { FleetMoveArgs } from './fleet-args';
 import { FoundSection } from '../common';
 import { Position } from '../../../libs/entities/common';
-import { fleetLoader } from '../../dataloaders';
+import { FleetRepository } from '../../../libs/repositories';
 
 @Resolver((of) => Fleet)
 export class FleetResolver {
+
+  private fleetRepo: FleetRepository;
+
+  constructor() {
+    this.fleetRepo = getCustomRepository(FleetRepository);
+  }
 
   @Mutation((type) => Fleet)
   public async moveFleet(@Arg('data') data: FleetMoveArgs, @Ctx() ctx: Context) {
@@ -49,22 +55,22 @@ export class FleetResolver {
 
   @FieldResolver((type) => [ Ship ])
   public ships(@Root() fleet: Fleet) {
-    return fleetLoader.shipsInFleets.load(fleet.no);
+    return this.fleetRepo.getShipsInFleet(fleet.no);
   }
 
   @FieldResolver((type) => User)
   public owner(@Root() fleet: Fleet) {
-    return fleetLoader.ownerInFleets.load(fleet.no);
+    return this.fleetRepo.getOwnerInFleet(fleet.no);
   }
 
   @FieldResolver((type) => SeaSection, { nullable: true })
   public seaSection(@Root() fleet: Fleet) {
-    return fleetLoader.seaSectionsInFleets.load(fleet.no);
+    return this.fleetRepo.getSeaSectionInFleet(fleet.no);
   }
 
   @FieldResolver((type) => City)
   public anchoredCity(@Root() fleet: Fleet) {
-    return fleetLoader.anchoredCitiesInFleets.load(fleet.no);
+    return this.fleetRepo.getAnchoredCityInFleet(fleet.no);
   }
 
   @FieldResolver((type) => Int, { nullable: true })
