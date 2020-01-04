@@ -2,6 +2,8 @@ import { LessThanOrEqual, MoreThanOrEqual, getRepository, EntityRepository, Abst
 import { SeaSection, Fleet } from '../entities';
 import DataLoader from 'dataloader';
 
+const cache = false;
+
 @EntityRepository()
 export class SeaSectionRepository extends AbstractRepository<SeaSection> {
 
@@ -11,7 +13,7 @@ export class SeaSectionRepository extends AbstractRepository<SeaSection> {
         .findByIds(seaSectionIds as number[], {
           relations: [ 'fleets' ],
         })
-        .then((seaSections) => seaSections.map((s) => s.fleets)));
+        .then((seaSections) => seaSections.map((s) => s.fleets)), { cache });
 
   public getFleetsInSeaSection(seaSectionNo: number) {
     return this.fleetsLoader.load(seaSectionNo);
