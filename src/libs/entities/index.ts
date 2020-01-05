@@ -5,7 +5,7 @@ import { Product, BaseProduct, ProductStatusEnum } from './product';
 import { Item, BaseItem } from './item';
 import { Fleet } from './fleet';
 import { City, Country } from './city';
-import { Champion, BaseChampion, ChampionStatusEnum } from './champion';
+import { Champion, BaseChampion, ChampionStatusEnum, AbilityPoints } from './champion';
 
 const AllEntities = [
   User,
@@ -27,7 +27,7 @@ export {
   Item, BaseItem,
   Fleet,
   City, Country,
-  Champion, BaseChampion,
+  Champion, BaseChampion, AbilityPoints,
 };
 
 export const Enums = {
