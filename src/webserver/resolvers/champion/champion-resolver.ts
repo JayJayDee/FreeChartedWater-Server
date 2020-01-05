@@ -1,8 +1,7 @@
 import { Resolver, Root, FieldResolver, Int } from 'type-graphql';
-import { Champion, BaseChampion, City, User, Enums } from '../../../libs/entities';
 import { getRepository, getCustomRepository } from 'typeorm';
-import { ChampionRepository } from '../../../libs/repositories/champion-repository';
-import { AbilityPoints } from '../../../libs/entities/champion/ability-points';
+import { Champion, BaseChampion, City, User, Enums, AbilityPoints } from '../../../libs/entities';
+import { ChampionRepository } from '../../../libs/repositories';
 
 @Resolver((of) => BaseChampion)
 export class BaseChampionResolver {

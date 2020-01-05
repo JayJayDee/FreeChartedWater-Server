@@ -1,12 +1,19 @@
 import { Resolver, FieldResolver, Root, Mutation, Arg, Query, Int } from 'type-graphql';
-import { getRepository, getConnection, Not } from 'typeorm';
+import { getRepository, getConnection, getCustomRepository } from 'typeorm';
 import { City, Country, Product, Ship, Fleet, Champion, User } from '../../../libs/entities';
 import { NotFoundError, NotEnoughGoldError, InvalidProductStateError } from '../../errors';
 
 import { ProductPurchaseArgs } from './city-args';
+import { CityRepository } from '../../../libs/repositories';
 
 @Resolver((of) => City)
 export class CityResolver {
+
+  private cityRepo: CityRepository;
+
+  constructor() {
+    this.cityRepo = getCustomRepository(CityRepository);
+  }
 
   @Mutation((type) => Ship)
   public async purchaseFromCity(@Arg('data') data: ProductPurchaseArgs) {
@@ -54,54 +61,22 @@ export class CityResolver {
   }
 
   @FieldResolver((type) => Country)
-  public async country(@Root() city: City) {
-    const c = await getRepository(City).findOne({
-      where: { no: city.no },
-      relations: [ 'country' ],
-    });
-
-    if (!c) {
-      return null;
-    }
-    return c.country;
+  public country(@Root() city: City) {
+    return this.cityRepo.getCountryOfCity(city.no);
   }
 
   @FieldResolver((type) => [ Product ])
-  public async products(@Root() city: City) {
-    const c = await getRepository(City).findOne({
-      where: { no: city.no },
-      relations: [ 'products' ],
-    });
-
-    if (!c) {
-      return [];
-    }
-    return c.products;
+  public products(@Root() city: City) {
+    return this.cityRepo.getProductsInCity(city.no);
   }
 
   @FieldResolver((type) => [ Fleet ])
-  public async fleets(@Root() city: City) {
-    const c = await getRepository(City).findOne({
-      where: { no: city.no },
-      relations: [ 'anchoredFleets' ],
-    });
-
-    if (!c) {
-      return [];
-    }
-    return c.anchoredFleets;
+  public fleets(@Root() city: City) {
+    return this.cityRepo.getAnchoredFleetsInCity(city.no);
   }
 
   @FieldResolver((type) => [ Champion ])
-  public async champions(@Root() city: City) {
-    const c = await getRepository(City).findOne({
-      where: { no: city.no },
-      relations: [ 'champions' ],
-    });
-
-    if (!c) {
-      return [];
-    }
-    return c.champions;
+  public champions(@Root() city: City) {
+    return this.cityRepo.getChampionsInCity(city.no);
   }
 }
