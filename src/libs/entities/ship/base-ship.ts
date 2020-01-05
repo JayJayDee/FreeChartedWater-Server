@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
 import { Ship } from './ship';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { ObjectType, Field, ID, Int } from 'type-graphql';
 
 @Entity()
 @ObjectType()
@@ -15,23 +15,23 @@ export class BaseShip {
   public nameCode: string;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public maxCapacity: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public maxProduct: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public maxCrew: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public maxHealth: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public price: number;
 
   @OneToMany((type) => Ship, (ship) => ship.base)

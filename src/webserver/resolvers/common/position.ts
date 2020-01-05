@@ -1,11 +1,11 @@
-import { InputType, Field } from 'type-graphql';
+import { InputType, Field, Int } from 'type-graphql';
 
 @InputType()
 export class PositionInput {
 
-  @Field()
+  @Field((type) => Int)
   public x: number;
 
-  @Field()
+  @Field((type) => Int)
   public y: number;
 }

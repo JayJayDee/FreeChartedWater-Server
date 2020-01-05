@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 import { Ship } from '../ship';
 import { City } from '../city';
-import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
+import { ObjectType, Field, ID, registerEnumType, Int } from 'type-graphql';
 import { BaseProduct } from './base-product';
 
 export enum ProductStatusEnum {
@@ -25,11 +25,11 @@ export class Product {
   public no: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public price: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public level: number;
 
   @ManyToOne((type) => BaseProduct)

@@ -1,14 +1,14 @@
-import { InputType, Field } from 'type-graphql';
+import { InputType, Field, Int } from 'type-graphql';
 
 @InputType({ description: 'paramter for purchasing product from city' })
 export class ProductPurchaseArgs {
 
-  @Field((type) => Number)
+  @Field((type) => Int)
   public shipNo: number;
 
-  @Field((type) => Number)
+  @Field((type) => Int)
   public productNo: number;
 
-  @Field((type) => Number)
+  @Field((type) => Int)
   public userNo: number;
 }

@@ -3,7 +3,7 @@ import { User } from '../user';
 import { Product } from '../product';
 import { Fleet } from '../fleet';
 import { BaseShip } from './base-ship';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { ObjectType, Field, ID, Int } from 'type-graphql';
 import { Item } from '../item';
 
 @Entity()
@@ -19,31 +19,31 @@ export class Ship {
   public name: string;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public maxCapacity: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public currentCapacity: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public maxProduct: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public maxCrew: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public currentCrew: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public maxHealth: number;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public currentHealth: number;
 
   @ManyToOne((type) => BaseShip)
@@ -69,6 +69,6 @@ export class Ship {
   @Field((type) => Number, { nullable: true })
   public cruisingSpeed: number | null;
 
-  @Field((type) => Number, { nullable: true })
+  @Field((type) => Int, { nullable: true })
   public availableCruisingDay: number | null;
 }

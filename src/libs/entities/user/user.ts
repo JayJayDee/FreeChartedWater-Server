@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { ObjectType, Field, ID, Int } from 'type-graphql';
 import { Champion } from '../champion';
 import { Fleet } from '../fleet';
 import { Ship } from '../ship';
@@ -36,7 +36,7 @@ export class User {
   public password: string;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public gold: number;
 
   @OneToMany((type) => Champion, (champion) => champion.owner)

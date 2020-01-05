@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
-import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
+import { ObjectType, Field, ID, registerEnumType, Int } from 'type-graphql';
 import { Item } from './item';
 
 export enum ItemTypeEnum {
@@ -53,7 +53,7 @@ export class BaseItem {
   public effectType: ItemEffectType;
 
   @Column()
-  @Field({ description: 'item effection point' })
+  @Field((type) => Int, { description: 'item effection point' })
   public effectPoint: number;
 
   @OneToMany((type) => Item, (item) => item.base)

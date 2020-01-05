@@ -1,5 +1,5 @@
 import { EntityRepository, AbstractRepository, getRepository } from 'typeorm';
-import { Champion, BaseChampion, User, City } from '../entities';
+import { Champion, BaseChampion, User, City, Item } from '../entities';
 import DataLoader from 'dataloader';
 
 const cache = false;
@@ -31,6 +31,14 @@ export class ChampionRepository extends AbstractRepository<Champion> {
       })
       .then((champions) => champions.map((c) => c.spawn)), { cache });
 
+  private itemsLoader: DataLoader<number, Item[]> =
+    new DataLoader((championIds) =>
+      getRepository(Champion)
+        .findByIds(championIds as number[], {
+          relations: [ 'equippedItems' ],
+        })
+        .then((champions) => champions.map((c) => c.equippedItems)));
+
   public getBaseInChampion(championNo: number) {
     return this.baseChampionLoader.load(championNo);
   }
@@ -41,5 +49,9 @@ export class ChampionRepository extends AbstractRepository<Champion> {
 
   public getSpawnInChampion(championNo: number) {
     return this.spawnLoader.load(championNo);
+  }
+
+  public getEquippedItemsInChampion(championNo: number) {
+    return this.itemsLoader.load(championNo);
   }
 }
