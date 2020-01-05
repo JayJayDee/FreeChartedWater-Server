@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { ObjectType, Field, ID, Int } from 'type-graphql';
 import { Champion } from './champion';
 
 @Entity()
@@ -15,7 +15,7 @@ export class BaseChampion {
   public nameCode: string;
 
   @Column()
-  @Field({ description: 'age of champion' })
+  @Field((type) => Int, { description: 'age of champion' })
   public age: number;
 
   @OneToMany((type) => Champion, (champion) => champion.base)

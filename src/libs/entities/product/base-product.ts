@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
+import { ObjectType, Field, ID, registerEnumType, Int } from 'type-graphql';
 import { Product } from './product';
 
 enum ProductTypeEnum {
@@ -50,7 +50,7 @@ export class BaseProduct {
   public type: ProductType;
 
   @Column()
-  @Field()
+  @Field((type) => Int)
   public price: number;
 
   @OneToMany((type) => Product, (product) => product.base)

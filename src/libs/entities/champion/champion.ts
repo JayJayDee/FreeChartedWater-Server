@@ -1,9 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column } from 'typeorm';
-import { ObjectType, Field, ID, registerEnumType } from 'type-graphql';
+import { ObjectType, Field, ID, registerEnumType, Int } from 'type-graphql';
 import { User } from '../user';
 import { BaseChampion } from './base-champion';
 import { City } from '../city';
 import { Item } from '../item';
+import { AbilityPoints } from './ability-points';
 
 export enum ChampionStatusEnum {
   SPAWNED = 'SPAWNED',
@@ -26,7 +27,7 @@ export class Champion {
   public no: number;
 
   @Column()
-  @Field({ description: 'level of champion' })
+  @Field((type) => Int, { description: 'level of champion' })
   public level: number;
 
   @ManyToOne((type) => BaseChampion, (base) => base.champions)
@@ -47,4 +48,7 @@ export class Champion {
 
   @Field((type) => ChampionStatusEnum, { description: 'SPAWNED: just spawned in city, OWNED: owned by user' })
   public status: ChampionStatus;
+
+  @Field((type) => AbilityPoints)
+  public abilityPoints: AbilityPoints;
 }
