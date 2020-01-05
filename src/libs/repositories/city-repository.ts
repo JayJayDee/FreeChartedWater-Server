@@ -2,6 +2,8 @@ import { EntityRepository, AbstractRepository, getRepository } from 'typeorm';
 import DataLoader from 'dataloader';
 import { City, Country, Fleet, Champion, Product } from '../entities';
 
+const cache = false;
+
 @EntityRepository()
 export class CityRepository extends AbstractRepository<City> {
 
@@ -11,7 +13,7 @@ export class CityRepository extends AbstractRepository<City> {
         .findByIds(cityIds as number[], {
           relations: [ 'country' ],
         })
-        .then((cities) => cities.map((c)  => c.country)));
+        .then((cities) => cities.map((c)  => c.country)), { cache });
 
   private fleetsLoader: DataLoader<number, Fleet[]> =
     new DataLoader((cityIds) =>
@@ -19,7 +21,7 @@ export class CityRepository extends AbstractRepository<City> {
         .findByIds(cityIds as number[], {
           relations: [ 'anchoredFleets' ],
         })
-        .then((cities) => cities.map((c)  => c.anchoredFleets)));
+        .then((cities) => cities.map((c)  => c.anchoredFleets)), { cache });
 
   private championsLoader: DataLoader<number, Champion[]> =
     new DataLoader((cityIds) =>
@@ -27,7 +29,7 @@ export class CityRepository extends AbstractRepository<City> {
         .findByIds(cityIds as number[], {
           relations: [ 'champions' ],
         })
-        .then((cities) => cities.map((c)  => c.champions)));
+        .then((cities) => cities.map((c)  => c.champions)), { cache });
 
   private productsLoader: DataLoader<number, Product[]> =
     new DataLoader((cityIds) =>
@@ -35,7 +37,7 @@ export class CityRepository extends AbstractRepository<City> {
         .findByIds(cityIds as number[], {
           relations: [ 'products' ],
         })
-        .then((cities) => cities.map((c)  => c.products)));
+        .then((cities) => cities.map((c)  => c.products)), { cache });
 
   public getCountryOfCity(cityNo: number) {
     return this.countryLoader.load(cityNo);

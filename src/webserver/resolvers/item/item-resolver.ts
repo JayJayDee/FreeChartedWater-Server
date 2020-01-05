@@ -1,6 +1,7 @@
 import { Resolver, FieldResolver, Root, Query, Arg, Int } from 'type-graphql';
-import { BaseItem, Item, Champion } from '../../../libs/entities';
-import { getRepository } from 'typeorm';
+import { getRepository, getCustomRepository } from 'typeorm';
+import { BaseItem, Item, Champion, User, Ship } from '../../../libs/entities';
+import { ItemRepository } from '../../../libs/repositories';
 
 @Resolver((of) => BaseItem)
 export class BaseItemResolver {
@@ -19,6 +20,12 @@ export class BaseItemResolver {
 @Resolver((of) => Item)
 export class ItemResolver {
 
+  private itemRepo: ItemRepository;
+
+  constructor() {
+    this.itemRepo = getCustomRepository(ItemRepository);
+  }
+
   @Query((type) => Item)
   public async item(@Arg('id', (type) => Int) id: number) {
     return getRepository(Item).findOne(id);
@@ -26,25 +33,21 @@ export class ItemResolver {
 
   @FieldResolver((type) => BaseItem)
   public async base(@Root() item: Item) {
-    const i = await getRepository(Item).findOne({
-      where: { no: item.no },
-      relations: [ 'base' ],
-    });
-    if (!i) {
-      return null;
-    }
-    return i.base;
+    return this.itemRepo.getBaseInItem(item.no);
   }
 
-  @FieldResolver((type) => Champion)
-  public async ownedChampion(@Root() item: Item) {
-    const i = await getRepository(Item).findOne({
-      where: { no: item.no },
-      relations: [ 'ownedChampion' ],
-    });
-    if (!i) {
-      return null;
-    }
-    return i.ownedChampion;
+  @FieldResolver((type) => User, { nullable: true })
+  public async owner(@Root() item: Item) {
+    return this.itemRepo.getOwnerOfItem(item.no);
+  }
+
+  @FieldResolver((type) => Champion, { nullable: true })
+  public ownedChampion(@Root() item: Item) {
+    return this.itemRepo.getOwnedChampionOfItem(item.no);
+  }
+
+  @FieldResolver((type) => Ship, { nullable: true })
+  public ownedShip(@Root() item: Item) {
+    return this.itemRepo.getOwnedShipOfItem(item.no);
   }
 }

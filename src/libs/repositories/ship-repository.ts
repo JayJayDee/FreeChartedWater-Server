@@ -1,6 +1,8 @@
 import { AbstractRepository, EntityRepository, In, getRepository } from 'typeorm';
-import { Ship, BaseShip, Fleet, Product } from '../entities';
 import DataLoader from 'dataloader';
+import { Ship, BaseShip, Fleet, Product } from '../entities';
+
+const cache = false;
 
 @EntityRepository(Ship)
 export class ShipRepository extends AbstractRepository<Ship> {
@@ -11,7 +13,7 @@ export class ShipRepository extends AbstractRepository<Ship> {
         .findByIds(shipIds as number[], {
           relations: [ 'base' ],
         })
-        .then((ships) => ships.map((s) => s.base)));
+        .then((ships) => ships.map((s) => s.base)), { cache });
 
   private fleetLoader: DataLoader<number, Fleet> =
     new DataLoader((shipIds) =>
@@ -19,7 +21,7 @@ export class ShipRepository extends AbstractRepository<Ship> {
         .findByIds(shipIds as number[], {
           relations: [ 'fleet' ],
         })
-        .then((ships) => ships.map((s) => s.fleet)));
+        .then((ships) => ships.map((s) => s.fleet)), { cache });
 
   private productsLoader: DataLoader<number, Product[]> =
     new DataLoader((shipIds) =>
@@ -27,7 +29,7 @@ export class ShipRepository extends AbstractRepository<Ship> {
         .findByIds(shipIds as number[], {
           relations: [ 'products' ],
         })
-        .then((ships) => ships.map((s) => s.products)));
+        .then((ships) => ships.map((s) => s.products)), { cache });
 
   public getBase(shipId: number) {
     return this.baseShipLoader.load(shipId);

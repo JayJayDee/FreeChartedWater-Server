@@ -37,7 +37,7 @@ export class ChampionRepository extends AbstractRepository<Champion> {
         .findByIds(championIds as number[], {
           relations: [ 'equippedItems' ],
         })
-        .then((champions) => champions.map((c) => c.equippedItems)));
+        .then((champions) => champions.map((c) => c.equippedItems)), { cache });
 
   public getBaseInChampion(championNo: number) {
     return this.baseChampionLoader.load(championNo);
