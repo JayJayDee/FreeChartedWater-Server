@@ -1,4 +1,4 @@
-import { Resolver, Root, FieldResolver } from 'type-graphql';
+import { Resolver, Root, FieldResolver, Int } from 'type-graphql';
 import { Champion, BaseChampion, City, User, Enums } from '../../../libs/entities';
 import { getRepository, getCustomRepository } from 'typeorm';
 import { ChampionRepository } from '../../../libs/repositories/champion-repository';
@@ -56,8 +56,16 @@ export class ChampionResolver {
   @FieldResolver((type) => AbilityPoints)
   public async abilityPoints(@Root() root: Champion): Promise<AbilityPoints> {
     const pts = new AbilityPoints();
+    pts.battle = 0;
     pts.health = 0;
     pts.leadership = 0;
+    pts.navigation = 0;
+    pts.trading = 0;
     return pts;
+  }
+
+  @FieldResolver((type) => Int)
+  public async expMax(@Root() root: Champion): Promise<number> {
+    return 0;
   }
 }

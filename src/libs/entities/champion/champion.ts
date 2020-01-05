@@ -30,6 +30,13 @@ export class Champion {
   @Field((type) => Int, { description: 'level of champion' })
   public level: number;
 
+  @Column()
+  @Field((type) => Int, { description: 'current exp.point'})
+  public expCurrent: number;
+
+  @Field((type) => Int, { description: 'max exp.point' })
+  public expMax: number;
+
   @ManyToOne((type) => BaseChampion, (base) => base.champions)
   @Field((type) => BaseChampion)
   public base: BaseChampion;
