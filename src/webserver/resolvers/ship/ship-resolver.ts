@@ -6,18 +6,15 @@ import { ShipRepository } from '../../../libs/repositories';
 @Resolver((of) => Ship)
 export class ShipResolver {
 
-  @FieldResolver((type) => BaseShip)
-  public async base(@Root() ship: Ship) {
-    getCustomRepository(ShipRepository).getBase(ship.no);
-    // const s = await getRepository(Ship).findOne({
-    //   where: { no: ship.no },
-    //   relations: [ 'base' ],
-    // });
+  private shipRepo: ShipRepository;
 
-    // if (!s) {
-    //   return null;
-    // }
-    // return s.base;
+  constructor() {
+    this.shipRepo = getCustomRepository(ShipRepository);
+  }
+
+  @FieldResolver((type) => BaseShip)
+  public base(@Root() ship: Ship) {
+    return this.shipRepo.getBase(ship.no);
   }
 
   @FieldResolver((type) => Fleet)
