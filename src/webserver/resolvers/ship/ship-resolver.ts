@@ -18,27 +18,13 @@ export class ShipResolver {
   }
 
   @FieldResolver((type) => Fleet)
-  public async fleet(@Root() ship: Ship) {
-    const s = await getRepository(Ship).findOne({
-      where: { no: ship.no },
-      relations: [ 'fleet' ],
-    });
-    if (!s) {
-      return null;
-    }
-    return s.fleet;
+  public fleet(@Root() ship: Ship) {
+    return this.shipRepo.getFleet(ship.no);
   }
 
   @FieldResolver((type) => [ Product ])
-  public async products(@Root() ship: Ship) {
-    const s = await getRepository(Ship).findOne({
-      where: { no: ship.no },
-      relations: [ 'products' ],
-    });
-    if (!s) {
-      return null;
-    }
-    return s.products;
+  public products(@Root() ship: Ship) {
+    return this.shipRepo.getProducts(ship.no);
   }
 
   @FieldResolver((type) => Int, { nullable: true })
