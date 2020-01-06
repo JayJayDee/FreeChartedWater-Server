@@ -1,12 +1,13 @@
-import { Resolver, Arg, Query, FieldResolver, Root } from 'type-graphql';
+import { Resolver, Arg, Query, FieldResolver, Root, Ctx } from 'type-graphql';
 import { User, Fleet, Ship, Champion, Item } from '../../libs/entities';
 import { getRepository } from 'typeorm';
+import { FCWContext } from '../context';
 
 @Resolver((of) => User)
 export class UserResolver {
 
   @Query((type) => User)
-  public async user(@Arg('no') no: number) {
+  public async user(@Ctx() ctx: FCWContext, @Arg('no') no: number) {
     const user = await getRepository(User).findOne(no);
     return user;
   }
