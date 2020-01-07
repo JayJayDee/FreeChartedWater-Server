@@ -1,7 +1,7 @@
 import { MiddlewareFn } from 'type-graphql';
 import DataLoader from 'dataloader';
 import { FCWContext } from '../context';
-import { Ship, User, SeaSection, Fleet, City } from '../../libs/entities';
+import { Ship, User, SeaSection, Fleet, City, Champion, Item } from '../../libs/entities';
 
 import { fleetLoader } from './fleet-loader';
 import { userLoader } from './user-loader';
@@ -15,6 +15,9 @@ export type DataLoders = {
   },
   user: {
     fleets(): DataLoader<number, Fleet[]>;
+    ships(): DataLoader<number, Ship[]>;
+    champions(): DataLoader<number, Champion[]>;
+    items(): DataLoader<number, Item[]>;
   },
 };
 
