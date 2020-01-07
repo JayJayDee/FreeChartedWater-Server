@@ -1,19 +1,7 @@
 import DataLoader from 'dataloader';
-import { Ship, Fleet, User, SeaSection, City } from '../../libs/entities';
 import { getRepository } from 'typeorm';
-
-const loadOrCreate =
-  <T, Q>({ loaderStore, builder, key }: {
-    loaderStore: {[key: string]: any},
-    builder: () => DataLoader<T, Q>,
-    key: string,
-  }) => {
-    if (loaderStore[key]) {
-      return loaderStore[key] as DataLoader<T, Q>;
-    }
-    loaderStore[key] = builder();
-    return loaderStore[key] as DataLoader<T, Q>;
-  };
+import { Ship, Fleet, User, SeaSection, City } from '../../libs/entities';
+import { loadOrCreate } from './util';
 
 export const fleetLoader = ({ loaderStore }: {
   loaderStore: {[key: string]: any},
