@@ -7,6 +7,7 @@ import { FleetMoveArgs } from './fleet-args';
 import { FoundSection } from '../common';
 import { Position } from '../../../libs/entities/common';
 import { FleetRepository } from '../../../libs/repositories';
+import { FCWContext } from '../../context';
 
 @Resolver((of) => Fleet)
 export class FleetResolver {
@@ -54,23 +55,23 @@ export class FleetResolver {
   }
 
   @FieldResolver((type) => [ Ship ])
-  public ships(@Root() fleet: Fleet) {
-    return this.fleetRepo.getShipsInFleet(fleet.no);
+  public ships(@Ctx() ctx: FCWContext, @Root() root: Fleet) {
+    return ctx.loaders.fleet.ships().load(root.no);
   }
 
   @FieldResolver((type) => User)
-  public owner(@Root() fleet: Fleet) {
-    return this.fleetRepo.getOwnerInFleet(fleet.no);
+  public owner(@Ctx() ctx: FCWContext, @Root() root: Fleet) {
+    return ctx.loaders.fleet.owner().load(root.no);
   }
 
   @FieldResolver((type) => SeaSection, { nullable: true })
-  public seaSection(@Root() fleet: Fleet) {
-    return this.fleetRepo.getSeaSectionInFleet(fleet.no);
+  public seaSection(@Ctx() ctx: FCWContext, @Root() root: Fleet) {
+    return ctx.loaders.fleet.seaSection().load(root.no);
   }
 
   @FieldResolver((type) => City)
-  public anchoredCity(@Root() fleet: Fleet) {
-    return this.fleetRepo.getAnchoredCityInFleet(fleet.no);
+  public anchoredCity(@Ctx() ctx: FCWContext, @Root() root: Fleet) {
+    return ctx.loaders.fleet.anchoredCity().load(root.no);
   }
 
   @FieldResolver((type) => Int, { nullable: true })

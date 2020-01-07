@@ -13,13 +13,13 @@ export class UserResolver {
   }
 
   @FieldResolver()
-  public async fleets(@Root() user: User): Promise<Fleet[]> {
-    return await getRepository(Fleet).find({ owner: user });
+  public fleets(@Ctx() ctx: FCWContext, @Root() root: User) {
+    return ctx.loaders.user.fleets().load(root.no);
   }
 
   @FieldResolver()
-  public async ships(@Root() user: User): Promise<Ship[]> {
-    return await getRepository(Ship).find({ owner: user });
+  public ships(@Ctx() ctx: FCWContext, @Root() user: User): Promise<Ship[]> {
+    return ctx.loaders.user.ships().load(user.no);
   }
 
   @FieldResolver()
