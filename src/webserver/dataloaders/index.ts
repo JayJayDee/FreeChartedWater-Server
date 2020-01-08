@@ -5,6 +5,7 @@ import { Ship, User, SeaSection, Fleet, City, Champion, Item } from '../../libs/
 
 import { fleetLoader } from './fleet-loader';
 import { userLoader } from './user-loader';
+import { itemLoader } from './item-loader';
 
 export type DataLoders = {
   fleet: {
@@ -19,6 +20,11 @@ export type DataLoders = {
     champions(): DataLoader<number, Champion[]>;
     items(): DataLoader<number, Item[]>;
   },
+  item: {
+    owner(): DataLoader<number, User | null>,
+    ownedChampion(): DataLoader<number, Champion | null>,
+    ownedShip(): DataLoader<number, Ship | null>,
+  },
 };
 
 export const dataLoaders: MiddlewareFn<FCWContext> =
@@ -29,6 +35,7 @@ export const dataLoaders: MiddlewareFn<FCWContext> =
     context.loaders = {
       fleet: fleetLoader({ loaderStore }),
       user: userLoader({ loaderStore }),
+      item: itemLoader({ loaderStore }),
     };
     return await next();
   };
