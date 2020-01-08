@@ -1,7 +1,8 @@
-import { Resolver, FieldResolver, Root, Query, Arg, Int } from 'type-graphql';
+import { Resolver, FieldResolver, Root, Query, Arg, Int, Ctx } from 'type-graphql';
 import { getRepository, getCustomRepository } from 'typeorm';
 import { BaseItem, Item, Champion, User, Ship } from '../../../libs/entities';
 import { ItemRepository } from '../../../libs/repositories';
+import { FCWContext } from '../../context';
 
 @Resolver((of) => BaseItem)
 export class BaseItemResolver {
@@ -37,17 +38,17 @@ export class ItemResolver {
   }
 
   @FieldResolver((type) => User, { nullable: true })
-  public async owner(@Root() item: Item) {
-    return this.itemRepo.getOwnerOfItem(item.no);
+  public owner(@Ctx() ctx: FCWContext, @Root() item: Item) {
+    return ctx.loaders.item.owner().load(item.no);
   }
 
   @FieldResolver((type) => Champion, { nullable: true })
-  public ownedChampion(@Root() item: Item) {
-    return this.itemRepo.getOwnedChampionOfItem(item.no);
+  public ownedChampion(@Ctx() ctx: FCWContext, @Root() item: Item) {
+    return ctx.loaders.item.ownedChampion().load(item.no);
   }
 
   @FieldResolver((type) => Ship, { nullable: true })
-  public ownedShip(@Root() item: Item) {
-    return this.itemRepo.getOwnedShipOfItem(item.no);
+  public ownedShip(@Ctx() ctx: FCWContext, @Root() item: Item) {
+    return ctx.loaders.item.ownedShip().load(item.no);
   }
 }
