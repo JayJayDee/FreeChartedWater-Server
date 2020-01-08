@@ -1,11 +1,24 @@
 import DataLoader from 'dataloader';
 import { getRepository } from 'typeorm';
-import { Ship, User, Item, Champion } from '../../libs/entities';
+import { Ship, User, Item, Champion, BaseItem } from '../../libs/entities';
 import { loadOrCreate } from './util';
 
 export const itemLoader = ({ loaderStore }: {
   loaderStore: {[key: string]: any},
 }) => ({
+  base: () =>
+    loadOrCreate<number, BaseItem>({
+      loaderStore,
+      key: 'item-base',
+      builder: () =>
+        new DataLoader((keys) =>
+          getRepository(Item)
+            .findByIds(keys as number[], {
+              relations: [ 'base' ],
+            })
+            .then((items) => items.map((i) => i.base))),
+    }),
+
   owner: () =>
     loadOrCreate<number, User | null>({
       loaderStore,
