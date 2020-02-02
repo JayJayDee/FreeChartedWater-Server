@@ -1,6 +1,7 @@
 import 'reflect-metadata';
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from 'apollo-server-express';
 import { GeneratingSchemaError } from 'type-graphql';
+import express from 'express';
 
 import { log } from '../libs/logger';
 import { loadConfig } from '../libs/configs';
@@ -24,9 +25,13 @@ const tag = '[graphql-webserver]';
     });
 
     const port = loadConfig('WEBSERVER_PORT');
+    const app = express();
 
-    const { url } = await server.listen(port);
-    log.info(`${tag} GraphQL server started: ${url}`);
+    server.applyMiddleware({ app, path: '/graphql' });
+
+    app.listen(port, () => {
+      log.info(`${tag} GraphQL server started, port:${port}`);
+    });
 
   } catch (err) {
     if (err instanceof GeneratingSchemaError) {
