@@ -53,6 +53,6 @@
     "socket.io": "^2.3.0",
     "socket.io-redis": "^5.2.0",
     "type-graphql": "^0.17.5",
-    "typeorm": "^0.2.20"
+    "typeorm": "^0.2.25"
   }
 }
