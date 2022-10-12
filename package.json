@@ -39,7 +39,7 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "apollo-server": "^2.9.12",
+    "apollo-server": "^2.25.4",
     "apollo-server-express": "^2.9.16",
     "chalk": "^3.0.0",
     "dataloader": "^2.0.0",
